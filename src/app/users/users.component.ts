@@ -1,5 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
+import {ApiService} from '../api.service';
+import {User} from '../entities/user';
 
 @Component({
   selector: 'app-users',
@@ -8,24 +10,18 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 })
 export class UsersComponent implements OnInit {
   displayedColumns: string[] = ['id', 'login', 'firstName', 'lastName', 'active', 'role'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<User>([]);
+  editRoute = '/users';
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+  constructor(private apiService: ApiService) {}
+
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
+    this.apiService.getUsers().then((users) => {
+      this.dataSource.data = users;
+    });
   }
 }
 
-export interface PeriodicElement {
-  id: number;
-  login: string;
-  firstName: string;
-  lastName: string;
-  active: boolean;
-  role: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, login: 'admin', firstName: 'sarvar', lastName: 'admin', active: true, role: 'администратор'},
-];

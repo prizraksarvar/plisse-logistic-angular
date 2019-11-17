@@ -8,14 +8,26 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { DrawerComponent } from './drawer/drawer.component';
 import { HeaderComponent } from './header/header.component';
-import {MatListModule, MatPaginatorModule, MatTableModule} from "@angular/material";
+import {
+  MatButtonModule,
+  MatCardModule, MatCheckboxModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatListModule,
+  MatPaginatorModule, MatSelectModule,
+  MatTableModule
+} from '@angular/material';
+import {ApiService} from './api.service';
+import {HttpClientModule} from '@angular/common/http';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     DrawerComponent,
-    HeaderComponent
+    HeaderComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -24,9 +36,18 @@ import {MatListModule, MatPaginatorModule, MatTableModule} from "@angular/materi
     MatSidenavModule,
     MatPaginatorModule,
     MatTableModule,
-    MatListModule
+    MatListModule,
+    HttpClientModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
-  providers: [],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
