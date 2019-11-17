@@ -1,0 +1,41 @@
+<mat-card class="example-form">
+  <form class="example-form">
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="ИД" [value]="user.id" disabled>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Логин" [value]="user.login">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Пароль" [value]="" type="password">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Имя" [value]="user.firstName">
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Фамилия" [value]="user.lastName">
+    </mat-form-field>
+
+    <mat-checkbox [checked]="user.active" (change)="user.active=!user.active">Активен</mat-checkbox>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Роль</mat-label>
+      <mat-select [(value)]="user.roleId">
+        <mat-option *ngFor="let role of roles" [value]="role.id">
+          {{role.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="form-controlls">
+      <button mat-button color="primary" routerLink="/users">Отменить</button>
+      <button mat-raised-button color="accent" (click)="save()">Сохранить</button>
+    </div>
+
+  </form>
+</mat-card>
