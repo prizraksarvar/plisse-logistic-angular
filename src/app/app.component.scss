@@ -1,0 +1,28 @@
+@import '../styles';
+
+$header-height: 59px;
+.app-header {
+  z-index: 1000;
+  position: fixed;
+  width: 100%;
+  height: $header-height;
+  top: 0;
+}
+
+.app-sidebar {
+  padding: 20px 0;
+  background: mat-color($primary);
+  color: mat-color($primary, '500-contrast');
+}
+
+mat-sidenav-container {
+  height: calc(100%);
+  position: relative;
+}
+
+mat-sidenav-content {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 79px 20px 20px 20px;
+}
+

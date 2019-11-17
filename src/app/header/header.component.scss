@@ -1,0 +1,7 @@
+@import '../../styles';
+
+.app-header {
+  padding: 20px;
+  background: mat-color($primary, 900);
+  color: mat-color($primary, '900-contrast');
+}
