@@ -5,6 +5,7 @@ export class User {
   login = '';
   firstName = '';
   lastName = '';
+  password = '';
   active = false;
   roleId = 0;
   role: Role;

@@ -8,15 +8,17 @@ export class BaseControl<T> {
     public controlType: string;
     public errors: {};
     public validators: any[];
+    public disabled: boolean;
     constructor(options: {
         value?: T,
         key?: string,
         label?: string,
         required?: boolean,
         order?: number,
-        controlType?: string
-        errors?: {}
-        validators?: any[]
+        controlType?: string,
+        errors?: {},
+        validators?: any[],
+        disabled?: boolean,
     } = {}) {
         this.value = options.value;
         this.key = options.key || '';
@@ -26,5 +28,6 @@ export class BaseControl<T> {
         this.controlType = options.controlType || '';
         this.errors = options.errors || {};
         this.validators = options.validators || [];
+        this.disabled = options.disabled || false;
     }
 }

@@ -5,6 +5,8 @@ import {User} from '../entities/user';
 import {Role} from '../entities/role';
 import {BaseControl} from '../editor-form/base-control';
 import {TextboxControl} from '../editor-form/textbox-control';
+import {CheckboxControl} from '../editor-form/checkbox-control';
+import {DropdownControl} from '../editor-form/dropdown-control';
 
 @Component({
   selector: 'app-user',
@@ -13,17 +15,12 @@ import {TextboxControl} from '../editor-form/textbox-control';
 })
 export class UserComponent implements OnInit {
   user: User;
-  roles: Role[];
+  roles: Role[] = [];
 
-  controls: BaseControl<any>[];
+  controls: BaseControl<any>[] = [];
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {
-    this.controls = [];
-    this.controls.push(new TextboxControl({
-      key: 'id',
-      type: 'text',
-      label: 'ИД',
-    }));
+    this.initControls();
   }
 
   ngOnInit() {
@@ -36,16 +33,63 @@ export class UserComponent implements OnInit {
     }
     this.apiService.getRoles().then((roles) => {
       this.roles = roles;
+      this.initControls();
     });
   }
 
-  save() {
+  save(user: User) {
     if (this.user.id !== 0) {
-      this.apiService.updateUser(this.user);
+      this.apiService.updateUser(user);
     } else {
-      this.apiService.createUser(this.user);
+      this.apiService.createUser(user);
     }
     this.router.navigate(['/users']);
     return false;
+  }
+
+  private initControls() {
+    this.controls = [];
+    this.controls.push(new TextboxControl({
+      key: 'id',
+      type: 'text',
+      label: 'ИД',
+      disabled: true,
+    }));
+    this.controls.push(new CheckboxControl({
+      key: 'active',
+      label: 'Активен',
+    }));
+    this.controls.push(new TextboxControl({
+      key: 'login',
+      type: 'text',
+      label: 'Логин',
+    }));
+    this.controls.push(new TextboxControl({
+      key: 'password',
+      type: 'password',
+      label: 'Пароль',
+    }));
+    this.controls.push(new TextboxControl({
+      key: 'firstName',
+      type: 'text',
+      label: 'Имя',
+    }));
+    this.controls.push(new TextboxControl({
+      key: 'lastName',
+      type: 'text',
+      label: 'Фамилия',
+    }));
+    const options = [];
+    this.roles.forEach((item) => {
+      options.push({
+        key: item.id,
+        value: item.name,
+      });
+    });
+    this.controls.push(new DropdownControl({
+      key: 'roleId',
+      label: 'Роль',
+      options,
+    }));
   }
 }

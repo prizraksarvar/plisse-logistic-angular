@@ -15,9 +15,9 @@ export class EditorFormComponent implements OnInit {
   @Input()
   public controls: BaseControl<any>[];
   @Input()
-  public element: Map<string,object>;
+  public element: object;
   @Input()
-  public onSave: (element:Map<string,object>)=>void;
+  public onSave: (element:object)=>void;
   @Input()
   public onCancel: ()=>void;
 
@@ -30,6 +30,9 @@ export class EditorFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.controls.forEach((control)=>{
+      control.value = this.element[control.key];
+    });
   }
 
   protected initForm() {

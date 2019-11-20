@@ -11,7 +11,7 @@ export class DrawerComponent implements OnInit {
     {name: 'Роли', link: '/roles'},
     {name: 'Доставки', link: '/delivery'},
     {name: 'Машины', link: '/vehicle'},
-    {name: 'Отчеты', link: '/'},
+    {name: 'Отчеты', link: '/users/0'},
   ];
   constructor() { }
 
