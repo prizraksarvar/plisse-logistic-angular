@@ -3,6 +3,8 @@ import {ApiService} from '../api.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from '../entities/user';
 import {Role} from '../entities/role';
+import {BaseControl} from '../editor-form/base-control';
+import {TextboxControl} from '../editor-form/textbox-control';
 
 @Component({
   selector: 'app-user',
@@ -12,7 +14,17 @@ import {Role} from '../entities/role';
 export class UserComponent implements OnInit {
   user: User;
   roles: Role[];
-  constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {}
+
+  controls: BaseControl<any>[];
+
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {
+    this.controls = [];
+    this.controls.push(new TextboxControl({
+      key: 'id',
+      type: 'text',
+      label: 'ИД',
+    }));
+  }
 
   ngOnInit() {
     this.user = new User();

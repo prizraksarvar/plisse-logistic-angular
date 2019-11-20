@@ -15,11 +15,17 @@ import {
   MatInputModule,
   MatListModule,
   MatPaginatorModule, MatSelectModule,
-  MatTableModule
+  MatTableModule,
+  MatIconModule,
+  MatToolbarModule,
 } from '@angular/material';
 import {ApiService} from './api.service';
 import {HttpClientModule} from '@angular/common/http';
 import { UserComponent } from './user/user.component';
+import { EditorFormComponent } from './editor-form/editor-form.component';
+import { FormControlService } from './form-control.service';
+import { ControlMaskDirective } from './editor-form/control-mask.directive';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -27,7 +33,9 @@ import { UserComponent } from './user/user.component';
     UsersComponent,
     DrawerComponent,
     HeaderComponent,
-    UserComponent
+    UserComponent,
+    EditorFormComponent,
+    ControlMaskDirective
   ],
   imports: [
     BrowserModule,
@@ -44,9 +52,13 @@ import { UserComponent } from './user/user.component';
     MatCheckboxModule,
     MatSelectModule,
     MatButtonModule,
+    MatIconModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
   ],
   providers: [
-    ApiService
+    ApiService,
+    FormControlService
   ],
   bootstrap: [AppComponent]
 })
