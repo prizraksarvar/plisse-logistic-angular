@@ -9,7 +9,7 @@ $header-height: 59px;
   top: 0;
 }
 
-.app-sidebar {
+.mat-drawer.app-sidebar {
   padding: 20px 0;
   background: mat-color($primary);
   color: mat-color($primary, '500-contrast');

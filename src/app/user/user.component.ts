@@ -14,6 +14,8 @@ import {DropdownControl} from '../editor-form/dropdown-control';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  public initialized = false;
+
   user: User;
   roles: Role[] = [];
 
@@ -26,19 +28,22 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.user = new User();
     const id = this.route.snapshot.paramMap.get('id');
-    if (id !== '0') {
-      this.apiService.getUser(id).then((user) => {
-        this.user = user;
-      });
-    }
     this.apiService.getRoles().then((roles) => {
       this.roles = roles;
       this.initControls();
     });
+    if (id !== '0') {
+      this.apiService.getUser(id).then((user) => {
+        this.user = user;
+        this.initialized = true;
+      });
+    } else {
+      this.initialized = true;
+    }
   }
 
   save(user: User) {
-    if (this.user.id !== 0) {
+    if (user.id !== 0) {
       this.apiService.updateUser(user);
     } else {
       this.apiService.createUser(user);

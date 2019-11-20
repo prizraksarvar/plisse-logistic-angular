@@ -7,7 +7,7 @@ export class FormControlService {
     constructor() { }
 
     toFormGroup(controls: BaseControl<any>[] ) {
-        let group: any = {};
+        const group: any = {};
 
         controls.forEach(control => {
             group[control.key] = this.toFormControl(control);
@@ -16,7 +16,7 @@ export class FormControlService {
     }
 
     toFormControl(control: BaseControl<any>) {
-        if (control.required && control.validators.indexOf(Validators.required)<0) {
+        if (control.required && control.validators.indexOf(Validators.required) < 0) {
             control.validators.push(Validators.required);
         }
         return new FormControl(control.value || '', control.validators);

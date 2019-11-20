@@ -1,7 +1,7 @@
-<app-editor-form [controls]="controls" [element]="user" [onSave]="save"></app-editor-form>
+<app-editor-form *ngIf="initialized" [controls]="controls" [element]="user" [onSave]="save.bind(this)"></app-editor-form>
 
 
-  
+
   <!--form class="example-form">
 
     <mat-form-field class="example-full-width">
