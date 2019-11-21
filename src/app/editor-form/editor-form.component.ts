@@ -36,7 +36,6 @@ export class EditorFormComponent implements OnInit {
     console.log(this.element);
     this.controls.forEach((control) => {
       control.value = this.element[control.key];
-      console.log(control.value);
       const formControl = this.form.controls[control.key];
       formControl.setValue(this.element[control.key]);
       if (control.disabled) {
@@ -57,7 +56,6 @@ export class EditorFormComponent implements OnInit {
       }
       this.element[control.key] = this.form.controls[control.key].value;
     });
-    console.log(this.element);
     return;
     this.onSave(this.element);
   }

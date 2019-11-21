@@ -1,4 +1,6 @@
 <div class="mat-elevation-z8 table-container">
+  <button mat-raised-button color="accent" class="add-button" [routerLink]="[editRoute, 'add']">Добавить пользователя</button>
+
   <table mat-table [dataSource]="dataSource">
 
     <ng-container matColumnDef="id">
@@ -35,5 +37,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [length]="count"></mat-paginator>
 </div>

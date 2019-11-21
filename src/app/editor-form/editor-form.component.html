@@ -1,6 +1,5 @@
 <mat-card *ngIf="initialized" class="editor-cart">
   <form class="editor-form" [formGroup]="form">
-
     <div *ngFor="let control of controls">
       <div [ngSwitch]="control.controlType">
         <mat-form-field *ngSwitchCase="'textbox'" class="example-full-width">

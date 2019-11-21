@@ -28,11 +28,11 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.user = new User();
     const id = this.route.snapshot.paramMap.get('id');
-    this.apiService.getRoles().then((roles) => {
+    this.apiService.getRoles(0, 20).then((roles) => {
       this.roles = roles;
       this.initControls();
     });
-    if (id !== '0') {
+    if (id !== 'add') {
       this.apiService.getUser(id).then((user) => {
         this.user = user;
         this.initialized = true;

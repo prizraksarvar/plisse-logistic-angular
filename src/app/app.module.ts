@@ -26,6 +26,8 @@ import { EditorFormComponent } from './editor-form/editor-form.component';
 import { FormControlService } from './form-control.service';
 import { ControlMaskDirective } from './editor-form/control-mask.directive';
 import {ReactiveFormsModule} from "@angular/forms";
+import { RolesComponent } from './roles/roles.component';
+import { RoleComponent } from './role/role.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     HeaderComponent,
     UserComponent,
     EditorFormComponent,
-    ControlMaskDirective
+    ControlMaskDirective,
+    RolesComponent,
+    RoleComponent
   ],
   imports: [
     BrowserModule,
