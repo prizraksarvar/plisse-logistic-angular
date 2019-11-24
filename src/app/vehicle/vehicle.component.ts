@@ -1,46 +1,54 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../entities/user";
 import {Role} from "../entities/role";
 import {BaseControl} from "../editor-form/base-control";
 import {ApiService} from "../api.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {TextboxControl} from "../editor-form/textbox-control";
 import {CheckboxControl} from "../editor-form/checkbox-control";
 import {DropdownControl} from "../editor-form/dropdown-control";
 import {Vehicle} from "../entities/vehicle";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-vehicle',
   templateUrl: './vehicle.component.html',
   styleUrls: ['./vehicle.component.scss']
 })
-export class VehicleComponent implements OnInit {
+export class VehicleComponent implements OnInit, OnDestroy {
   public initialized = false;
 
-  vehicle: Vehicle;
-  users: User[] = [];
+  public vehicle: Vehicle;
+  public users: User[] = [];
 
-  controls: BaseControl<any>[] = [];
+  public controls: BaseControl<any>[] = [];
+  private routeSubscription: Subscription;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {
     this.initControls();
   }
 
   ngOnInit() {
-    this.vehicle = new Vehicle();
-    const id = this.route.snapshot.paramMap.get('id');
-    this.apiService.getUsers(0, 20).then((users) => {
-      this.users = users;
-      this.initControls();
-    });
-    if (id !== 'add') {
-      this.apiService.getVehicle(id).then((vehicle) => {
-        this.vehicle = vehicle;
-        this.initialized = true;
+    this.routeSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
+      this.vehicle = new Vehicle();
+      const id = this.route.snapshot.paramMap.get('id');
+      this.apiService.getUsers(0, 20).then((users) => {
+        this.users = users;
+        this.initControls();
       });
-    } else {
-      this.initialized = true;
-    }
+      if (id !== 'add') {
+        this.apiService.getVehicle(id).then((vehicle) => {
+          this.vehicle = vehicle;
+          this.initialized = true;
+        });
+      } else {
+        this.initialized = true;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
   }
 
   save(vehicle: Vehicle) {

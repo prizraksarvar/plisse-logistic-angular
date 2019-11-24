@@ -1,45 +1,53 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ApiService} from '../api.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {User} from '../entities/user';
 import {Role} from '../entities/role';
 import {BaseControl} from '../editor-form/base-control';
 import {TextboxControl} from '../editor-form/textbox-control';
 import {CheckboxControl} from '../editor-form/checkbox-control';
 import {DropdownControl} from '../editor-form/dropdown-control';
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, OnDestroy {
   public initialized = false;
+  public user: User;
 
-  user: User;
-  roles: Role[] = [];
+  public roles: Role[] = [];
+  public controls: BaseControl<any>[] = [];
 
-  controls: BaseControl<any>[] = [];
+  private routeSubscription: Subscription;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {
     this.initControls();
   }
 
   ngOnInit() {
-    this.user = new User();
-    const id = this.route.snapshot.paramMap.get('id');
-    this.apiService.getRoles(0, 20).then((roles) => {
-      this.roles = roles;
-      this.initControls();
-    });
-    if (id !== 'add') {
-      this.apiService.getUser(id).then((user) => {
-        this.user = user;
-        this.initialized = true;
+    this.routeSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
+      this.user = new User();
+      const id = this.route.snapshot.paramMap.get('id');
+      this.apiService.getRoles(0, 20).then((roles) => {
+        this.roles = roles;
+        this.initControls();
       });
-    } else {
-      this.initialized = true;
-    }
+      if (id !== 'add') {
+        this.apiService.getUser(id).then((user) => {
+          this.user = user;
+          this.initialized = true;
+        });
+      } else {
+        this.initialized = true;
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
   }
 
   save(user: User) {

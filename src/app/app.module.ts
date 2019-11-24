@@ -17,7 +17,7 @@ import {
   MatPaginatorModule, MatSelectModule,
   MatTableModule,
   MatIconModule,
-  MatToolbarModule,
+  MatToolbarModule, MatMenuModule,
 } from '@angular/material';
 import {ApiService} from './api.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -32,6 +32,7 @@ import { VehicleComponent } from './vehicle/vehicle.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
 import { DeliveryMonthComponent } from './delivery-month/delivery-month.component';
 import { DeliveryDayComponent } from './delivery-day/delivery-day.component';
+import {FormatterService} from "./formatter.service";
 
 @NgModule({
   declarations: [
@@ -67,10 +68,12 @@ import { DeliveryDayComponent } from './delivery-day/delivery-day.component';
     MatIconModule,
     MatToolbarModule,
     ReactiveFormsModule,
+    MatMenuModule,
   ],
   providers: [
     ApiService,
-    FormControlService
+    FormControlService,
+    FormatterService
   ],
   bootstrap: [AppComponent]
 })

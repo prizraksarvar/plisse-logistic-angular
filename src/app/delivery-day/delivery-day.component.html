@@ -1,1 +1,22 @@
-<p>delivery-day works!</p>
+<mat-card *ngIf="initialized" class="mat-elevation-z8 delivery-day">
+  <div class="delivery-day__header">
+    <button mat-button [routerLink]="['/delivery/day',previosDate.getFullYear(),previosDate.getMonth(),previosDate.getDate()]">
+      <mat-icon aria-hidden="false" aria-label="Предыдущий день" color="primary">keyboard_arrow_left</mat-icon>
+    </button>
+    <button mat-button>{{formatterService.isToday(currentDay) ? 'Сегодня, ' : ''}}
+      {{currentDay.getDate()}} {{formatterService.getMonthNameWithNumber(currentDay.getMonth())}} {{currentDay.getFullYear()}}</button>
+    <button mat-button [routerLink]="['/delivery/day',nextDate.getFullYear(),nextDate.getMonth(),nextDate.getDate()]">
+      <mat-icon aria-hidden="false" aria-label="Следующий день" color="primary">keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="delivery-day__table">
+    <div class="delivery-day__table-header">Первая половина дня</div>
+
+  </div>
+  <mat-divider></mat-divider>
+  <div class="delivery-day__table">
+    <div class="delivery-day__table-header">Вторая половина дня</div>
+
+  </div>
+</mat-card>

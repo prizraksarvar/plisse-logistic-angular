@@ -1,0 +1,10 @@
+
+
+.delivery-day {
+  width: calc(100% - 30px);
+
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+}

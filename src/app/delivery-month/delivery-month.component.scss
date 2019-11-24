@@ -1,15 +1,35 @@
+@import '../../styles';
 
 .delivery-calendar {
 
-  width: 100%;
-  min-width: 400px;
+  width: calc(100% - 30px);
+  min-width: 500px;
+
   &__controls {
     display: flex;
     justify-content: center;
+    align-items: center;
+
+    &-month {
+      width: 80px;
+      text-align: center;
+    }
+
+    &-year {
+      width: 40px;
+      text-align: center;
+    }
+
+    &-menu-item {
+      font-weight: bold;
+      background: mat-color($primary, 100);
+    }
   }
+
   &__header {
     font-weight: bold;
     display: flex;
+
     &-date {
       flex: 1;
       padding: 10px;
@@ -22,8 +42,7 @@
   }
 
   &__date {
-    padding: 10px;
-    height: 40px;
+    padding: 20px 10px;
     text-align: center;
     flex: 1;
 
@@ -32,7 +51,7 @@
     }
 
     &-today {
-      background: #82afff;
+      background: mat-color($primary, 100);
     }
 
     &-other-month {
