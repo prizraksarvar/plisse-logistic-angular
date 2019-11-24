@@ -30,6 +30,8 @@ import { RolesComponent } from './roles/roles.component';
 import { RoleComponent } from './role/role.component';
 import { VehicleComponent } from './vehicle/vehicle.component';
 import { VehiclesComponent } from './vehicles/vehicles.component';
+import { DeliveryMonthComponent } from './delivery-month/delivery-month.component';
+import { DeliveryDayComponent } from './delivery-day/delivery-day.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
     RolesComponent,
     RoleComponent,
     VehicleComponent,
-    VehiclesComponent
+    VehiclesComponent,
+    DeliveryMonthComponent,
+    DeliveryDayComponent
   ],
   imports: [
     BrowserModule,

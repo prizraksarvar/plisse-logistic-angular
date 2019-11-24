@@ -1,0 +1,54 @@
+
+.delivery-calendar {
+
+  width: 100%;
+  min-width: 400px;
+  &__controls {
+    display: flex;
+    justify-content: center;
+  }
+  &__header {
+    font-weight: bold;
+    display: flex;
+    &-date {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+    }
+  }
+
+  &__row {
+    display: flex;
+  }
+
+  &__date {
+    padding: 10px;
+    height: 40px;
+    text-align: center;
+    flex: 1;
+
+    &:hover {
+      background: #ebebeb;
+    }
+
+    &-today {
+      background: #82afff;
+    }
+
+    &-other-month {
+      color: lightgray;
+    }
+
+    &-weekend {
+      color: lightcoral;
+    }
+
+    &-other-month.delivery-calendar__date-weekend {
+      color: #dbc0ca;
+    }
+  }
+
+  &-weekend {
+    color: lightcoral;
+  }
+}

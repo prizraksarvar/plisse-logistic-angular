@@ -9,7 +9,7 @@ export class DrawerComponent implements OnInit {
   menuItems: MenuItem[] = [
     {name: 'Пользователи', link: '/users'},
     {name: 'Роли', link: '/roles'},
-    {name: 'Доставки', link: '/delivery'},
+    {name: 'Доставки', link: '/delivery/month'},
     {name: 'Машины', link: '/vehicles'},
     {name: 'Отчеты', link: '/users/0'},
   ];
