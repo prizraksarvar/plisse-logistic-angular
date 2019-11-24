@@ -28,6 +28,8 @@ import { ControlMaskDirective } from './editor-form/control-mask.directive';
 import {ReactiveFormsModule} from "@angular/forms";
 import { RolesComponent } from './roles/roles.component';
 import { RoleComponent } from './role/role.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { VehiclesComponent } from './vehicles/vehicles.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { RoleComponent } from './role/role.component';
     EditorFormComponent,
     ControlMaskDirective,
     RolesComponent,
-    RoleComponent
+    RoleComponent,
+    VehicleComponent,
+    VehiclesComponent
   ],
   imports: [
     BrowserModule,

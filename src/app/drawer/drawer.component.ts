@@ -10,7 +10,7 @@ export class DrawerComponent implements OnInit {
     {name: 'Пользователи', link: '/users'},
     {name: 'Роли', link: '/roles'},
     {name: 'Доставки', link: '/delivery'},
-    {name: 'Машины', link: '/vehicle'},
+    {name: 'Машины', link: '/vehicles'},
     {name: 'Отчеты', link: '/users/0'},
   ];
   constructor() { }

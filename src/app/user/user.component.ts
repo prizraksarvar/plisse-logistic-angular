@@ -43,11 +43,16 @@ export class UserComponent implements OnInit {
   }
 
   save(user: User) {
-    if (user.id !== 0) {
+    if (user.id > 0) {
       this.apiService.updateUser(user);
     } else {
       this.apiService.createUser(user);
     }
+    this.router.navigate(['/users']);
+    return false;
+  }
+
+  cancel() {
     this.router.navigate(['/users']);
     return false;
   }

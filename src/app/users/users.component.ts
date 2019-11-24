@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'login', 'firstName', 'lastName', 'active', 'role'];
+  displayedColumns: string[] = ['id', 'login', 'firstName', 'lastName', 'active', 'role', 'actions'];
   dataSource = new MatTableDataSource<User>([]);
   editRoute = '/users';
   count = 0;
@@ -40,6 +40,14 @@ export class UsersComponent implements OnInit, OnDestroy {
   initTable() {
     this.apiService.getUsers(this.paginator.pageIndex * this.paginator.pageSize, this.paginator.pageSize).then((users) => {
       this.dataSource.data = users;
+    });
+  }
+
+  remove(id:number) {
+    if (!confirm("Вы действительно хотите удалить запись?"))
+      return;
+    this.apiService.deleteUser(id).then((r) => {
+      this.initTable();
     });
   }
 }

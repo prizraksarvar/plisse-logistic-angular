@@ -1,19 +1,18 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatTableDataSource} from "@angular/material";
-import {User} from "../entities/user";
-import {ApiService} from "../api.service";
 import {Subscription} from "rxjs";
-import {Role} from "../entities/role";
+import {ApiService} from "../api.service";
+import {Vehicle} from "../entities/vehicle";
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+  selector: 'app-vehicles',
+  templateUrl: './vehicles.component.html',
+  styleUrls: ['./vehicles.component.scss']
 })
-export class RolesComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['id', 'name', 'actions'];
-  dataSource = new MatTableDataSource<Role>([]);
-  editRoute = '/roles';
+export class VehiclesComponent implements OnInit, OnDestroy {
+  displayedColumns: string[] = ['id', 'name', 'active', 'user', 'actions'];
+  dataSource = new MatTableDataSource<Vehicle>([]);
+  editRoute = '/vehicles';
   count = 0;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -23,7 +22,7 @@ export class RolesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.dataSource.paginator = this.paginator;
-    this.apiService.getRolesCount().then((countObj) => {
+    this.apiService.getVehiclesCount().then((countObj) => {
       this.count = countObj.count;
       this.initTable();
     });
@@ -39,15 +38,15 @@ export class RolesComponent implements OnInit, OnDestroy {
   }
 
   initTable() {
-    this.apiService.getRoles(this.paginator.pageIndex * this.paginator.pageSize, this.paginator.pageSize).then((items) => {
-      this.dataSource.data = items;
+    this.apiService.getVehicles(this.paginator.pageIndex * this.paginator.pageSize, this.paginator.pageSize).then((vehicles) => {
+      this.dataSource.data = vehicles;
     });
   }
 
   remove(id:number) {
     if (!confirm("Вы действительно хотите удалить запись?"))
       return;
-    this.apiService.deleteRole(id).then((r) => {
+    this.apiService.deleteVehicle(id).then((r) => {
       this.initTable();
     });
   }

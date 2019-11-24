@@ -1,12 +1,5 @@
-.table-container {
-  height: 100%;
-  overflow: auto;
-}
+@import '../table';
 
-table {
-  width: 100%;
-}
-
-.add-button {
-  margin: 20px;
+table, mat-paginator {
+  width: 800px;
 }

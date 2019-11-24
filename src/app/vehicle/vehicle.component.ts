@@ -7,16 +7,18 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {TextboxControl} from "../editor-form/textbox-control";
 import {CheckboxControl} from "../editor-form/checkbox-control";
 import {DropdownControl} from "../editor-form/dropdown-control";
+import {Vehicle} from "../entities/vehicle";
 
 @Component({
-  selector: 'app-role',
-  templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  selector: 'app-vehicle',
+  templateUrl: './vehicle.component.html',
+  styleUrls: ['./vehicle.component.scss']
 })
-export class RoleComponent implements OnInit {
+export class VehicleComponent implements OnInit {
   public initialized = false;
 
-  role: Role;
+  vehicle: Vehicle;
+  users: User[] = [];
 
   controls: BaseControl<any>[] = [];
 
@@ -25,12 +27,15 @@ export class RoleComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.role = new Role();
+    this.vehicle = new Vehicle();
     const id = this.route.snapshot.paramMap.get('id');
-    this.initControls();
+    this.apiService.getUsers(0, 20).then((users) => {
+      this.users = users;
+      this.initControls();
+    });
     if (id !== 'add') {
-      this.apiService.getRole(id).then((role) => {
-        this.role = role;
+      this.apiService.getVehicle(id).then((vehicle) => {
+        this.vehicle = vehicle;
         this.initialized = true;
       });
     } else {
@@ -38,18 +43,18 @@ export class RoleComponent implements OnInit {
     }
   }
 
-  save(role: Role) {
-    if (role.id > 0) {
-      this.apiService.updateRole(role);
+  save(vehicle: Vehicle) {
+    if (vehicle.id > 0) {
+      this.apiService.updateVehicle(vehicle);
     } else {
-      this.apiService.createRole(role);
+      this.apiService.createVehicle(vehicle);
     }
-    this.router.navigate(['/roles']);
+    this.router.navigate(['/vehicles']);
     return false;
   }
 
   cancel() {
-    this.router.navigate(['/roles']);
+    this.router.navigate(['/vehicles']);
     return false;
   }
 
@@ -61,10 +66,26 @@ export class RoleComponent implements OnInit {
       label: 'ИД',
       disabled: true,
     }));
+    this.controls.push(new CheckboxControl({
+      key: 'active',
+      label: 'Активен',
+    }));
     this.controls.push(new TextboxControl({
       key: 'name',
       type: 'text',
-      label: 'Имя',
+      label: 'Название',
+    }));
+    const options = [];
+    this.users.forEach((item) => {
+      options.push({
+        key: item.id,
+        value: item.firstName + ' ' + item.lastName,
+      });
+    });
+    this.controls.push(new DropdownControl({
+      key: 'userId',
+      label: 'Водитель',
+      options,
     }));
   }
 }

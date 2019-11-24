@@ -1,0 +1,17 @@
+.table-container {
+  height: 100%;
+  overflow: auto;
+}
+
+table, mat-paginator {
+  width: 300px;
+  min-width: 100%;
+}
+
+.add-button {
+  margin: 20px;
+}
+
+.app-table-row-actions {
+  text-align: right;
+}
