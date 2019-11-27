@@ -33,6 +33,7 @@ import { VehiclesComponent } from './vehicles/vehicles.component';
 import { DeliveryMonthComponent } from './delivery-month/delivery-month.component';
 import { DeliveryDayComponent } from './delivery-day/delivery-day.component';
 import {FormatterService} from "./formatter.service";
+import { DeliveryCalendarComponent } from './delivery-calendar/delivery-calendar.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {FormatterService} from "./formatter.service";
     VehicleComponent,
     VehiclesComponent,
     DeliveryMonthComponent,
-    DeliveryDayComponent
+    DeliveryDayComponent,
+    DeliveryCalendarComponent
   ],
   imports: [
     BrowserModule,

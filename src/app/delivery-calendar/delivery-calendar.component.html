@@ -1,0 +1,40 @@
+<mat-card *ngIf="initialized" class="delivery-calendar mat-elevation-z8" [class.delivery-calendar-big]="size=='big'">
+  <div class="delivery-calendar__controls">
+    <button mat-button [routerLink]="['/delivery/month',previosMonth.getFullYear(),previosMonth.getMonth()]">
+      <mat-icon aria-hidden="false" aria-label="Предыдущий месяц" color="primary">keyboard_arrow_left</mat-icon>
+    </button>
+    <button mat-button [matMenuTriggerFor]="menuMonth"
+            class="delivery-calendar__controls-month"> {{formatterService.getMonthName(currentDay.getMonth())}} </button>
+    <mat-menu #menuMonth="matMenu">
+      <button mat-menu-item *ngFor="let date of months"
+              [class.delivery-calendar__controls-menu-item]="date.getMonth()==currentDay.getMonth()"
+              [routerLink]="['/delivery/month',date.getFullYear(),date.getMonth()]"> {{formatterService.getMonthName(date.getMonth())}} </button>
+    </mat-menu>
+    <button mat-button [matMenuTriggerFor]="menuYear"
+            class="delivery-calendar__controls-month"> {{currentDay.getFullYear()}} </button>
+    <mat-menu #menuYear="matMenu">
+      <button mat-menu-item *ngFor="let date of years"
+              [class.delivery-calendar__controls-menu-item]="date.getFullYear()==currentDay.getFullYear()"
+              [routerLink]="['/delivery/day',date.getFullYear(),date.getMonth()]"> {{date.getFullYear()}} </button>
+    </mat-menu>
+    <button mat-button [routerLink]="['/delivery/month',nextMonth.getFullYear(),nextMonth.getMonth()]">
+      <mat-icon aria-hidden="false" aria-label="Следующий месяц" color="primary">keyboard_arrow_right</mat-icon>
+    </button>
+  </div>
+  <div class="delivery-calendar__header">
+    <div *ngFor="let day of formatterService.getWeek()" class="delivery-calendar__header-date"
+         [class.delivery-calendar__date-weekend]="formatterService.isWeekend(day)">
+      {{formatterService.getDayShortName(day)}}
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div *ngFor="let row of calendarData" class="delivery-calendar__row">
+    <button mat-button *ngFor="let date of row" class="delivery-calendar__date"
+            [class.delivery-calendar__date-today]="formatterService.isToday(date)"
+            [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
+            [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
+            [routerLink]="['/delivery/day',date.getFullYear(),date.getMonth(),date.getDate()]">
+      {{date.getDate()}}
+    </button>
+  </div>
+</mat-card>

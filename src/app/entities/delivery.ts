@@ -1,4 +1,4 @@
-import {Role} from './role';
+import {User} from './user';
 import {Vehicle} from "./vehicle";
 
 export class Delivery {
