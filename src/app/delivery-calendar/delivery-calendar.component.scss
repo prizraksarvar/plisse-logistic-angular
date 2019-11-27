@@ -46,6 +46,12 @@
   &__date {
     text-align: center;
     flex: 1;
+    //margin-top: 20px;
+
+    &-container {
+      padding-top: 3px;
+      padding-right: 3px;
+    }
 
     &.delivery-calendar-big {
       padding: 20px 10px;

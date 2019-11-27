@@ -10,6 +10,8 @@ import { DrawerComponent } from './drawer/drawer.component';
 import { HeaderComponent } from './header/header.component';
 import {
   MatButtonModule,
+  MatBadgeModule,
+  MatTooltipModule,
   MatCardModule, MatCheckboxModule,
   MatFormFieldModule,
   MatInputModule,
@@ -71,6 +73,8 @@ import { DeliveryCalendarComponent } from './delivery-calendar/delivery-calendar
     MatToolbarModule,
     ReactiveFormsModule,
     MatMenuModule,
+    MatBadgeModule,
+    MatTooltipModule,
   ],
   providers: [
     ApiService,

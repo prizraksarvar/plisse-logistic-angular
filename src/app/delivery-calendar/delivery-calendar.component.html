@@ -15,7 +15,7 @@
     <mat-menu #menuYear="matMenu">
       <button mat-menu-item *ngFor="let date of years"
               [class.delivery-calendar__controls-menu-item]="date.getFullYear()==currentDay.getFullYear()"
-              [routerLink]="['/delivery/day',date.getFullYear(),date.getMonth()]"> {{date.getFullYear()}} </button>
+              [routerLink]="['/delivery/month',date.getFullYear(),date.getMonth()]"> {{date.getFullYear()}} </button>
     </mat-menu>
     <button mat-button [routerLink]="['/delivery/month',nextMonth.getFullYear(),nextMonth.getMonth()]">
       <mat-icon aria-hidden="false" aria-label="Следующий месяц" color="primary">keyboard_arrow_right</mat-icon>
@@ -29,12 +29,32 @@
   </div>
   <mat-divider></mat-divider>
   <div *ngFor="let row of calendarData" class="delivery-calendar__row">
-    <button mat-button *ngFor="let date of row" class="delivery-calendar__date"
-            [class.delivery-calendar__date-today]="formatterService.isToday(date)"
-            [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
-            [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
-            [routerLink]="['/delivery/day',date.getFullYear(),date.getMonth(),date.getDate()]">
-      {{date.getDate()}}
-    </button>
+    <ng-template ngFor let-date [ngForOf]="row">
+      <!--TODO: move dublicate to another component-->
+      <button *ngIf="size=='big'" mat-button class="delivery-calendar__date"
+              [class.delivery-calendar__date-today]="formatterService.isToday(date)"
+              [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
+              [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
+              [routerLink]="['/delivery/day',date.getFullYear(),date.getMonth(),date.getDate()]"
+              matTooltip="5 первая половина дня |\n 5 вторая половина дня">
+        <span class="delivery-calendar__date-container" [matBadge]="getCountFirstPart(date)+'|'+getCountSecondPart(date)" 
+              [matBadgeHidden]="getCount(date)==0"
+              matBadgePosition="above after" matBadgeColor="primary" matBadgeSize="small">
+          {{date.getDate()}}
+        </span>
+      </button>
+      <button *ngIf="size!='big'" mat-icon-button class="delivery-calendar__date"
+              [class.delivery-calendar__date-today]="formatterService.isToday(date)"
+              [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
+              [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
+              [routerLink]="['/delivery/day',date.getFullYear(),date.getMonth(),date.getDate()]"
+              matTooltip="5 первая половина дня |\n 5 вторая половина дня">
+        <span class="delivery-calendar__date-container" [matBadge]="getCountFirstPart(date)+'|'+getCountSecondPart(date)" 
+              [matBadgeHidden]="getCount(date)==0"
+              matBadgePosition="above after" matBadgeColor="primary" matBadgeSize="small">
+          {{date.getDate()}}
+        </span>
+      </button>
+    </ng-template>
   </div>
 </mat-card>

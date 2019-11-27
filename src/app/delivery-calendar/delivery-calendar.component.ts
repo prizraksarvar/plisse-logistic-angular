@@ -103,4 +103,16 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
   isOtherMonth(date: Date) {
     return date.getMonth() != this.currentDay.getMonth();
   }
+
+  getCountFirstPart(date: Date) {
+    return Math.floor(Math.random() * 5);
+  }
+
+  getCountSecondPart(date: Date) {
+    return Math.floor(Math.random() * 5);
+  }
+
+  getCount(date: Date) {
+    return this.getCountFirstPart(date) + this.getCountSecondPart(date);
+  }
 }
