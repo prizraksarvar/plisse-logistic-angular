@@ -37,6 +37,9 @@ import { DeliveryDayComponent } from './delivery-day/delivery-day.component';
 import {FormatterService} from "./formatter.service";
 import { DeliveryCalendarComponent } from './delivery-calendar/delivery-calendar.component';
 import { DeliveryComponent } from './delivery/delivery.component';
+import {LoginModule} from "../login/login.module";
+import {AuthService} from "./auth/auth.service";
+import {LoginComponent} from "../login/login.component";
 
 @NgModule({
   declarations: [
@@ -54,7 +57,8 @@ import { DeliveryComponent } from './delivery/delivery.component';
     DeliveryMonthComponent,
     DeliveryDayComponent,
     DeliveryCalendarComponent,
-    DeliveryComponent
+    DeliveryComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -77,11 +81,15 @@ import { DeliveryComponent } from './delivery/delivery.component';
     MatMenuModule,
     MatBadgeModule,
     MatTooltipModule,
+    // LoginModule,
   ],
   providers: [
     ApiService,
     FormControlService,
-    FormatterService
+    FormatterService,
+    AuthService,
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })

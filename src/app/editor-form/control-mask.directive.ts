@@ -1,31 +1,31 @@
-import { Directive, HostListener, Input } from '@angular/core';
+import {Directive, HostListener, Input} from '@angular/core';
 import {NgControl} from "@angular/forms";
 import {BaseControlMask} from "./masks/base-control-mask";
-import {PhoneControlMask} from "./masks/phone-control-mask";
 
 @Directive({
-    selector: '[appControlMask]'
+  selector: '[appControlMask]'
 })
 export class ControlMaskDirective {
 
-    constructor(public ngControl: NgControl) { }
+  @Input('appControlMask') controlMask: BaseControlMask<any>;
 
-    @Input('mpControlMask') controlMask: BaseControlMask<any>;
- 
-    @HostListener('ngModelChange', ['$event'])
-    onModelChange(event) {
-        this.onInputChange(event, false);
-    }
+  constructor(public ngControl: NgControl) {
+  }
 
-    @HostListener('keydown.backspace', ['$event'])
-    keydownBackspace(event) {
-        this.onInputChange(event.target.value, true);
-    }
+  @HostListener('ngModelChange', ['$event'])
+  onModelChange(event) {
+    this.onInputChange(event, false);
+  }
 
-    onInputChange(event, backspace) {
-        if (!(this.controlMask instanceof BaseControlMask)) {
-            return;
-        }
-        this.ngControl.valueAccessor.writeValue(this.controlMask.processValueChange(event,backspace));
+  @HostListener('keydown.backspace', ['$event'])
+  keydownBackspace(event) {
+    this.onInputChange(event.target.value, true);
+  }
+
+  onInputChange(event, backspace) {
+    if (!(this.controlMask instanceof BaseControlMask)) {
+      return;
     }
+    this.ngControl.valueAccessor.writeValue(this.controlMask.processValueChange(event, backspace));
+  }
 }
