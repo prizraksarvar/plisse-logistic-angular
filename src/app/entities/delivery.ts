@@ -3,7 +3,7 @@ import {Vehicle} from "./vehicle";
 
 export class Delivery {
   id:number;
-  invoices:string[];
+  invoices:string[] = ["Тест счет"];
   organization = '';
   address = '';
   phone = '';
@@ -13,7 +13,7 @@ export class Delivery {
   dateTime:Date;
   vehicleAssignTime:Date;
   completedTime:Date;
-  completed = true;
+  completed = false;
   vehicleId:number;
   vehicle: Vehicle;
   createrUserId:number;

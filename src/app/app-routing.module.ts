@@ -8,6 +8,7 @@ import {VehicleComponent} from "./vehicle/vehicle.component";
 import {VehiclesComponent} from "./vehicles/vehicles.component";
 import {DeliveryMonthComponent} from "./delivery-month/delivery-month.component";
 import {DeliveryDayComponent} from "./delivery-day/delivery-day.component";
+import {DeliveryComponent} from "./delivery/delivery.component";
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'delivery/day/:year/:month/:date', component: DeliveryDayComponent },
   { path: 'delivery/month/:year/:month', component: DeliveryMonthComponent },
   { path: 'delivery/month', component: DeliveryMonthComponent },
+  { path: 'delivery/:id', component: DeliveryComponent },
   { path: '', component: UsersComponent },
 ];
 

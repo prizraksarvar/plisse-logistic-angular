@@ -4,7 +4,7 @@
       <div [ngSwitch]="control.controlType">
         <mat-form-field *ngSwitchCase="'textbox'" class="example-full-width">
           <input matInput [placeholder]="control.label" [type]="control.type"
-                 [id]="control.key" [formControlName]="control.key">
+                 [id]="control.key" [formControlName]="control.key"><!--[appControlMask]="control.mask"-->
         </mat-form-field>
         <mat-form-field *ngSwitchCase="'dropdown'" class="example-full-width">
           <mat-label>Роль</mat-label>
@@ -15,7 +15,8 @@
           </mat-select>
         </mat-form-field>
         <mat-checkbox *ngSwitchCase="'checkbox'" [id]="control.key"
-                      [formControlName]="control.key">Активен
+                      [formControlName]="control.key">
+                      {{control.label}}
         </mat-checkbox>
       </div>
     </div>

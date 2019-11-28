@@ -4,14 +4,14 @@ import {BaseControlMask} from "./masks/base-control-mask";
 import {PhoneControlMask} from "./masks/phone-control-mask";
 
 @Directive({
-    selector: '[mpControlMask]'
+    selector: '[appControlMask]'
 })
 export class ControlMaskDirective {
 
     constructor(public ngControl: NgControl) { }
 
     @Input('mpControlMask') controlMask: BaseControlMask<any>;
-
+ 
     @HostListener('ngModelChange', ['$event'])
     onModelChange(event) {
         this.onInputChange(event, false);

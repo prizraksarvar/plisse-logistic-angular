@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {User} from './entities/user';
 import {Role} from './entities/role';
 import {Vehicle} from "./entities/vehicle";
+import {Delivery} from "./entities/delivery"
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,34 @@ export class ApiService {
   public deleteVehicle(id: number): Promise<{description?:string, error?:{}}> {
     return this.http.delete(this.API_URL + '/vehicles/' + id, this.getOptions()).toPromise() as Promise<{description?:string, error?:{}}>;
   }
+
+
+  public getDeliveriesCount(): Promise<{count: number}> {
+    return this.http.get(
+      this.API_URL + '/deliveries/count', this.getOptions()).toPromise() as Promise<{count: number}>;
+  }
+
+  public getDeliveries(offset: number, limit: number): Promise<Delivery[]> {
+    return this.http.get(
+      this.API_URL + '/deliveries?filter[offset]=' + offset + '&filter[limit]=' + limit, this.getOptions()).toPromise() as Promise<Delivery[]>;
+  }
+
+  public getDelivery(id: string): Promise<Delivery> {
+    return this.http.get(this.API_URL + '/deliveries/' + id, this.getOptions()).toPromise() as Promise<Delivery>;
+  }
+
+  public createDelivery(delivery: Delivery): Promise<Delivery> {
+    return this.http.post(this.API_URL + '/deliveries', delivery, this.getOptions()).toPromise() as Promise<Delivery>;
+  }
+
+  public updateDelivery(delivery: Delivery): Promise<Delivery> {
+    return this.http.patch(this.API_URL + '/deliveries/' + delivery.id, delivery, this.getOptions()).toPromise() as Promise<Delivery>;
+  }
+
+  public deleteDelivery(id: number): Promise<{description?:string, error?:{}}> {
+    return this.http.delete(this.API_URL + '/deliveries/' + id, this.getOptions()).toPromise() as Promise<{description?:string, error?:{}}>;
+  }
+
 
 
   private getOptions() {
