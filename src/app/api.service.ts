@@ -15,9 +15,9 @@ export class ApiService {
   }
 
 
-  public getUsersCount(): Promise<{count: number}> {
+  public getUsersCount(): Promise<{ count: number }> {
     return this.http.get(
-      this.API_URL + '/users/count', this.getOptions()).toPromise() as Promise<{count: number}>;
+      this.API_URL + '/users/count', this.getOptions()).toPromise() as Promise<{ count: number }>;
   }
 
   public getUsers(offset: number, limit: number): Promise<User[]> {
@@ -37,14 +37,14 @@ export class ApiService {
     return this.http.patch(this.API_URL + '/users/' + user.id, user, this.getOptions()).toPromise() as Promise<User>;
   }
 
-  public deleteUser(id: number): Promise<{description?:string, error?:{}}> {
-    return this.http.delete(this.API_URL + '/users/' + id, this.getOptions()).toPromise() as Promise<{description?:string, error?:{}}>;
+  public deleteUser(id: number): Promise<{ description?: string, error?: {} }> {
+    return this.http.delete(this.API_URL + '/users/' + id, this.getOptions()).toPromise() as Promise<{ description?: string, error?: {} }>;
   }
 
 
-  public getRolesCount(): Promise<{count: number}> {
+  public getRolesCount(): Promise<{ count: number }> {
     return this.http.get(
-      this.API_URL + '/roles/count', this.getOptions()).toPromise() as Promise<{count: number}>;
+      this.API_URL + '/roles/count', this.getOptions()).toPromise() as Promise<{ count: number }>;
   }
 
   public getRoles(offset: number, limit: number): Promise<Role[]> {
@@ -64,14 +64,14 @@ export class ApiService {
     return this.http.patch(this.API_URL + '/roles/' + role.id, role, this.getOptions()).toPromise() as Promise<Role>;
   }
 
-  public deleteRole(id: number): Promise<{description?:string, error?:{}}> {
-    return this.http.delete(this.API_URL + '/roles/' + id, this.getOptions()).toPromise() as Promise<{description?:string, error?:{}}>;
+  public deleteRole(id: number): Promise<{ description?: string, error?: {} }> {
+    return this.http.delete(this.API_URL + '/roles/' + id, this.getOptions()).toPromise() as Promise<{ description?: string, error?: {} }>;
   }
 
 
-  public getVehiclesCount(): Promise<{count: number}> {
+  public getVehiclesCount(): Promise<{ count: number }> {
     return this.http.get(
-      this.API_URL + '/vehicles/count', this.getOptions()).toPromise() as Promise<{count: number}>;
+      this.API_URL + '/vehicles/count', this.getOptions()).toPromise() as Promise<{ count: number }>;
   }
 
   public getVehicles(offset: number, limit: number): Promise<Vehicle[]> {
@@ -91,19 +91,23 @@ export class ApiService {
     return this.http.patch(this.API_URL + '/vehicles/' + user.id, user, this.getOptions()).toPromise() as Promise<Vehicle>;
   }
 
-  public deleteVehicle(id: number): Promise<{description?:string, error?:{}}> {
-    return this.http.delete(this.API_URL + '/vehicles/' + id, this.getOptions()).toPromise() as Promise<{description?:string, error?:{}}>;
+  public deleteVehicle(id: number): Promise<{ description?: string, error?: {} }> {
+    return this.http.delete(this.API_URL + '/vehicles/' + id, this.getOptions()).toPromise() as Promise<{ description?: string, error?: {} }>;
   }
 
 
-  public getDeliveriesCount(): Promise<{count: number}> {
+  public getDeliveriesCount(date: Date): Promise<{ count: number }> {
+    date = this.timeZoneFix(date);
     return this.http.get(
-      this.API_URL + '/deliveries/count', this.getOptions()).toPromise() as Promise<{count: number}>;
+      this.API_URL + '/deliveries/count?where[dateTime]=' + date.toISOString(), this.getOptions()).toPromise() as Promise<{ count: number }>;
   }
 
-  public getDeliveries(offset: number, limit: number): Promise<Delivery[]> {
+  public getDeliveries(offset: number, limit: number, date: Date): Promise<Delivery[]> {
+    date = this.timeZoneFix(date);
     return this.http.get(
-      this.API_URL + '/deliveries?filter[offset]=' + offset + '&filter[limit]=' + limit, this.getOptions()).toPromise() as Promise<Delivery[]>;
+      this.API_URL + '/deliveries?filter[offset]=' + offset + '&filter[limit]=' + limit
+      + '&filter[where][dateTime]=' + date.toISOString(),
+      this.getOptions()).toPromise() as Promise<Delivery[]>;
   }
 
   public getDelivery(id: string): Promise<Delivery> {
@@ -118,13 +122,18 @@ export class ApiService {
     return this.http.patch(this.API_URL + '/deliveries/' + delivery.id, delivery, this.getOptions()).toPromise() as Promise<Delivery>;
   }
 
-  public deleteDelivery(id: number): Promise<{description?:string, error?:{}}> {
-    return this.http.delete(this.API_URL + '/deliveries/' + id, this.getOptions()).toPromise() as Promise<{description?:string, error?:{}}>;
+  public deleteDelivery(id: number): Promise<{ description?: string, error?: {} }> {
+    return this.http.delete(this.API_URL + '/deliveries/' + id, this.getOptions()).toPromise() as Promise<{ description?: string, error?: {} }>;
   }
-
 
 
   private getOptions() {
     return {headers: {'Content-Type': 'application/json'}};
+  }
+
+  private timeZoneFix(date:Date) {
+    let ndate = new Date(date);
+    ndate.setHours(date.getHours()+5);
+    return ndate;
   }
 }

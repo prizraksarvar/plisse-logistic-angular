@@ -15,8 +15,6 @@ export class DeliveryDayComponent implements OnInit, OnDestroy {
   public currentDay: Date;
   public previosDate: Date;
   public nextDate: Date;
-  public firstDayPart: Delivery[];
-  public secondDayPart: Delivery[];
 
   private routeSubscription: Subscription;
 
@@ -45,8 +43,7 @@ export class DeliveryDayComponent implements OnInit, OnDestroy {
   }
 
   initTable() {
-    this.firstDayPart = [];
-    this.secondDayPart = [];
+
   }
 
   initPreviosNext() {

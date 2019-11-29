@@ -31,6 +31,7 @@ const routes: Routes = [
           { path: 'delivery/day/:year/:month/:date', component: DeliveryDayComponent },
           { path: 'delivery/month/:year/:month', component: DeliveryMonthComponent },
           { path: 'delivery/month', component: DeliveryMonthComponent },
+          { path: 'delivery/add/:dayPart', component: DeliveryComponent },
           { path: 'delivery/:id', component: DeliveryComponent },
           { path: '', component: UsersComponent },
         ],

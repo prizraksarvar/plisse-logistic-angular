@@ -40,6 +40,7 @@ import { DeliveryComponent } from './delivery/delivery.component';
 import {LoginModule} from "../login/login.module";
 import {AuthService} from "./auth/auth.service";
 import {LoginComponent} from "../login/login.component";
+import { DeliveryTableComponent } from './delivery-table/delivery-table.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import {LoginComponent} from "../login/login.component";
     DeliveryDayComponent,
     DeliveryCalendarComponent,
     DeliveryComponent,
-    LoginComponent
+    LoginComponent,
+    DeliveryTableComponent
   ],
   imports: [
     BrowserModule,

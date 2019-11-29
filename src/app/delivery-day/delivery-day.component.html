@@ -3,7 +3,9 @@
     <button mat-button [routerLink]="['/delivery/day',previosDate.getFullYear(),previosDate.getMonth(),previosDate.getDate()]">
       <mat-icon aria-hidden="false" aria-label="Предыдущий день" color="primary">keyboard_arrow_left</mat-icon>
     </button>
-    <button mat-button>{{formatterService.isToday(currentDay) ? 'Сегодня, ' : ''}}
+    <button mat-button
+            [routerLink]="['/delivery/month',currentDay.getFullYear(),currentDay.getMonth()]">
+      {{formatterService.isToday(currentDay) ? 'Сегодня, ' : ''}}
       {{currentDay.getDate()}} {{formatterService.getMonthNameWithNumber(currentDay.getMonth())}} {{currentDay.getFullYear()}}</button>
     <button mat-button [routerLink]="['/delivery/day',nextDate.getFullYear(),nextDate.getMonth(),nextDate.getDate()]">
       <mat-icon aria-hidden="false" aria-label="Следующий день" color="primary">keyboard_arrow_right</mat-icon>
@@ -12,11 +14,11 @@
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Первая половина дня</div>
-
+    <app-delivery-table dayPart="1" [date]="currentDay"></app-delivery-table>
   </div>
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Вторая половина дня</div>
-
+    <app-delivery-table dayPart="2" [date]="currentDay"></app-delivery-table>
   </div>
 </mat-card>
