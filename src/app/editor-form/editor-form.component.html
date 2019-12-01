@@ -18,6 +18,11 @@
                       [formControlName]="control.key">
                       {{control.label}}
         </mat-checkbox>
+        <div *ngSwitchCase="'deliveryCalendar'" style="width: 300px;">
+          <app-delivery-calendar size="small" [onDateClick]=""></app-delivery-calendar>
+          <input [placeholder]="control.label" type="hidden"
+                 [id]="control.key" [formControlName]="control.key">
+        </div>
       </div>
     </div>
 

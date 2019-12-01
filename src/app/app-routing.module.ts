@@ -12,6 +12,8 @@ import {DeliveryComponent} from "./delivery/delivery.component";
 import {AppComponent} from "./app.component";
 import {AuthGuard} from "./auth/auth.guard";
 import {LoginComponent} from "../login/login.component";
+import {VehicleResolverService} from "./vehicle/vehicle-resolver.service";
+import {UsersResolverService} from "./vehicle/users-resolver.service";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,18 +24,21 @@ const routes: Routes = [
       {
         path: '',
         children: [
-          { path: 'users/:id', component: UserComponent },
-          { path: 'users', component: UsersComponent },
-          { path: 'roles/:id', component: RoleComponent },
-          { path: 'roles', component: RolesComponent },
-          { path: 'vehicles/:id', component: VehicleComponent },
-          { path: 'vehicles', component: VehiclesComponent },
-          { path: 'delivery/day/:year/:month/:date', component: DeliveryDayComponent },
-          { path: 'delivery/month/:year/:month', component: DeliveryMonthComponent },
-          { path: 'delivery/month', component: DeliveryMonthComponent },
-          { path: 'delivery/add/:dayPart', component: DeliveryComponent },
-          { path: 'delivery/:id', component: DeliveryComponent },
-          { path: '', component: UsersComponent },
+          { path: 'users/:id', component: UserComponent, data: { animation: 'detail' }},
+          { path: 'users', component: UsersComponent, data: { animation: 'list' } },
+          { path: 'roles/:id', component: RoleComponent, data: { animation: 'detail' } },
+          { path: 'roles', component: RolesComponent, data: { animation: 'list' } },
+          { path: 'vehicles/:id', component: VehicleComponent, data: { animation: 'detail' }, resolve: {
+              vehicle: VehicleResolverService,
+              users: UsersResolverService
+            } },
+          { path: 'vehicles', component: VehiclesComponent, data: { animation: 'list' } },
+          { path: 'delivery/day/:year/:month/:date', component: DeliveryDayComponent, data: { animation: 'list' } },
+          { path: 'delivery/month/:year/:month', component: DeliveryMonthComponent, data: { animation: 'list' } },
+          { path: 'delivery/month', component: DeliveryMonthComponent, data: { animation: 'list' } },
+          { path: 'delivery/:id/:year/:month/:date/:dayPart', component: DeliveryComponent, data: { animation: 'detail' } },
+          { path: 'delivery/:id', component: DeliveryComponent, data: { animation: 'detail' } },
+          { path: '', component: UsersComponent, data: { animation: 'list' } },
         ],
       }
     ]

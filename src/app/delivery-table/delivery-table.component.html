@@ -1,5 +1,8 @@
 <div class="table-container">
-  <button mat-raised-button color="accent" class="add-button" [routerLink]="[editRoute, 'add', dayPart]">Добавить доставку</button>
+  <button mat-raised-button color="accent" class="add-button"
+          [routerLink]="[editRoute, 'add', currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), dayPart]">
+    Добавить доставку
+  </button>
 
   <table mat-table [dataSource]="dataSource">
 

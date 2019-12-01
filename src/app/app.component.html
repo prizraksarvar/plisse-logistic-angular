@@ -1,12 +1,19 @@
 <mat-toolbar color="primary" class="app-header mat-elevation-z8">
-  <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+  <button mat-icon-button (click)="snav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
   <h1 class="example-app-name">Plisse Logistic</h1>
 </mat-toolbar>
 <mat-sidenav-container class="main-container">
-  <mat-sidenav #snav [mode]="isMobile ? 'push' : 'side'" [opened]="menuOpen" fixedInViewport fixedTopGap="59" fixedBottomGap="0" class="app-sidebar mat-elevation-z8">
+  <mat-sidenav #snav [mode]="isMobile ? 'push' : 'side'" [opened]="menuOpen" fixedInViewport fixedTopGap="59"
+               fixedBottomGap="0" class="app-sidebar mat-elevation-z8">
     <app-drawer></app-drawer>
   </mat-sidenav>
   <mat-sidenav-content>
-    <router-outlet></router-outlet>
+    <div [@routeAnimation]="getAnimationData(routerOutlet)"
+         (@routeAnimation.start)="onAnimationEvent($event)"
+         (@routeAnimation.done)="onAnimationEvent($event)">
+      <router-outlet #routerOutlet="outlet"></router-outlet>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

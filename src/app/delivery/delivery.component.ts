@@ -5,7 +5,6 @@ import {Delivery} from '../entities/delivery';
 import {BaseControl} from '../editor-form/base-control';
 import {TextboxControl} from '../editor-form/textbox-control';
 import {CheckboxControl} from '../editor-form/checkbox-control';
-import {DropdownControl} from '../editor-form/dropdown-control';
 import {PhoneControlMask} from '../editor-form/masks/phone-control-mask';
 import {Subscription} from "rxjs";
 
@@ -15,10 +14,12 @@ import {Subscription} from "rxjs";
   styleUrls: ['./delivery.component.scss']
 })
 export class DeliveryComponent implements OnInit, OnDestroy {
-public initialized = false;
+  public initialized = false;
   public delivery: Delivery;
 
   public controls: BaseControl<any>[] = [];
+  public currentDay: Date;
+  public dayPart = 1;
 
   private routeSubscription: Subscription;
 
@@ -30,7 +31,23 @@ public initialized = false;
     this.routeSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
       this.delivery = new Delivery();
       const id = params.get('id');
+      let year = params.get('year');
+      let month = params.get('month');
+      let date = params.get('date');
+      if (year && month && date) {
+        this.currentDay = new Date(parseInt(year), parseInt(month), parseInt(date));
+      } else {
+        this.currentDay = new Date();
+        this.currentDay.setHours(0,0,0,0);
+      }
+      const dayPart = params.get('dayPart');
       this.initControls();
+      if (dayPart) {
+        this.dayPart = parseInt(dayPart);
+      }
+      if (this.dayPart==2) {
+        this.currentDay.setHours(4);
+      }
       if (id !== 'add') {
         this.apiService.getDelivery(id).then((delivery) => {
           this.delivery = delivery;
@@ -47,17 +64,18 @@ public initialized = false;
   }
 
   save(delivery: Delivery) {
+    delivery.dateTime = this.currentDay;
     if (delivery.id > 0) {
       this.apiService.updateDelivery(delivery);
     } else {
       this.apiService.createDelivery(delivery);
     }
-    this.router.navigate(['/delivery-day']);
+    this.router.navigate(['/delivery/day', this.currentDay.getFullYear(), this.currentDay.getMonth(), this.currentDay.getDate()]);
     return false;
   }
 
   cancel() {
-    this.router.navigate(['/delivery-day']);
+    this.router.navigate(['/delivery/day', this.currentDay.getFullYear(), this.currentDay.getMonth(), this.currentDay.getDate()]);
     return false;
   }
 
@@ -99,6 +117,7 @@ public initialized = false;
       key: 'dateTime',
       type: 'text',
       label: 'Дата',
+      disabled: true,
     }));
     this.controls.push(new TextboxControl({
       key: 'createdTime',

@@ -10,7 +10,8 @@ import {FormatterService} from "../formatter.service";
   styleUrls: ['./delivery-calendar.component.scss']
 })
 export class DeliveryCalendarComponent implements OnInit, OnDestroy {
-  @Input() public size: 'big'|'small';
+  @Input() public size: 'big' | 'small';
+  @Input() public onDateClick: (date: Date) => void;
   public currentDay: Date;
   public previosMonth: Date;
   public nextMonth: Date;
@@ -18,6 +19,12 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
   public initialized = false;
   public months: Date[];
   public years: Date[];
+  public countsByDate: {
+    [index:string]:{
+      1:number,
+      2:number,
+    }
+  } = {};
 
   private routeSubscription: Subscription;
 
@@ -43,6 +50,7 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
       this.initCalendarData();
       this.initMonths();
       this.initYears();
+      this.initCountsByDate();
       this.initialized = true;
     });
   }
@@ -100,16 +108,45 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
     }
   }
 
+  initCountsByDate() {
+    const from = this.calendarData[0][0];
+    const to = this.calendarData[this.calendarData.length - 1][this.calendarData[this.calendarData.length - 1].length - 1];
+    this.apiService.getDeliveriesCountByDate(from, to).then((r) => {
+      this.countsByDate = {};
+      r.forEach((i) => {
+        const datetime = new Date(Date.parse(i.datetime));
+        const dayPart = datetime.getHours()==0?1:2;
+        console.log(datetime.getHours());
+        const date = datetime.getFullYear()+'-'+datetime.getMonth()+'-'+datetime.getDate();
+        let d = this.countsByDate[date];
+        if (!d) {
+          d = {
+            1:0,
+            2:0,
+          };
+        }
+        d[dayPart] = i.count;
+        this.countsByDate[date] = d;
+      });
+    });
+  }
+
+  dateClick(date: Date) {
+    this.onDateClick(date);
+  }
+
   isOtherMonth(date: Date) {
     return date.getMonth() != this.currentDay.getMonth();
   }
 
   getCountFirstPart(date: Date) {
-    return Math.floor(Math.random() * 5);
+    const sdate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();
+    return this.countsByDate[sdate]?this.countsByDate[sdate][1]:0;
   }
 
   getCountSecondPart(date: Date) {
-    return Math.floor(Math.random() * 5);
+    const sdate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();
+    return this.countsByDate[sdate]?this.countsByDate[sdate][2]:0;
   }
 
   getCount(date: Date) {

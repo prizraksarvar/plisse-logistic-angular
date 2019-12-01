@@ -4,4 +4,5 @@ export enum ControlTypes {
   dropdown = 'dropdown',
   radio = 'radio',
   datepicker = 'datepicker',
+  deliveryCalendar = 'deliveryCalendar',
 }

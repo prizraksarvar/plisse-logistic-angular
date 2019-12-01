@@ -9,6 +9,7 @@ import {Delivery} from "./entities/delivery"
   providedIn: 'root'
 })
 export class ApiService {
+  // API_URL = 'http://localhost:3000';
   API_URL = 'https://plisse-logistic.sarvarcorp.ru';
 
   constructor(private http: HttpClient) {
@@ -97,13 +98,17 @@ export class ApiService {
 
 
   public getDeliveriesCount(date: Date): Promise<{ count: number }> {
-    date = this.timeZoneFix(date);
     return this.http.get(
       this.API_URL + '/deliveries/count?where[dateTime]=' + date.toISOString(), this.getOptions()).toPromise() as Promise<{ count: number }>;
   }
 
+  public getDeliveriesCountByDate(from: Date, to: Date): Promise<{ count: number, datetime: string }[]> {
+    return this.http.get(
+      this.API_URL + '/deliveries/countByDate?from=' + from.toISOString()
+      + '&to=' + to.toISOString(), this.getOptions()).toPromise() as Promise<{ count: number, datetime: string }[]>;
+  }
+
   public getDeliveries(offset: number, limit: number, date: Date): Promise<Delivery[]> {
-    date = this.timeZoneFix(date);
     return this.http.get(
       this.API_URL + '/deliveries?filter[offset]=' + offset + '&filter[limit]=' + limit
       + '&filter[where][dateTime]=' + date.toISOString(),
@@ -131,9 +136,9 @@ export class ApiService {
     return {headers: {'Content-Type': 'application/json'}};
   }
 
-  private timeZoneFix(date:Date) {
+  private timeZoneFix(date: Date) {
     let ndate = new Date(date);
-    ndate.setHours(date.getHours()+5);
+    ndate.setHours(date.getHours() + 5);
     return ndate;
   }
 }

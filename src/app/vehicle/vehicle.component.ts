@@ -29,26 +29,17 @@ export class VehicleComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.routeSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
-      this.vehicle = new Vehicle();
-      const id = this.route.snapshot.paramMap.get('id');
-      this.apiService.getUsers(0, 20).then((users) => {
-        this.users = users;
+    this.route.data
+      .subscribe((data: { vehicle: Vehicle, users: User[] }) => {
+        this.vehicle = data.vehicle;
+        this.users = data.users;
         this.initControls();
-      });
-      if (id !== 'add') {
-        this.apiService.getVehicle(id).then((vehicle) => {
-          this.vehicle = vehicle;
-          this.initialized = true;
-        });
-      } else {
         this.initialized = true;
-      }
-    });
+      });
   }
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+
   }
 
   save(vehicle: Vehicle) {

@@ -11,11 +11,15 @@ import {FormatterService} from "../formatter.service";
   styleUrls: ['./delivery-month.component.scss']
 })
 export class DeliveryMonthComponent implements OnInit, OnDestroy {
+  constructor(private router: Router) {}
+
   ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
   }
 
-
+  dateClick(date:Date) {
+    this.router.navigate(['/delivery/day',date.getFullYear(),date.getMonth(),date.getDate()]);
+  }
 }
