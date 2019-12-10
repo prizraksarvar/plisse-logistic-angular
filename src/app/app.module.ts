@@ -41,6 +41,8 @@ import {LoginModule} from "../login/login.module";
 import {AuthService} from "./auth/auth.service";
 import {LoginComponent} from "../login/login.component";
 import { DeliveryTableComponent } from './delivery-table/delivery-table.component';
+import { DeliveryDayLogisticComponent } from './delivery-day-logistic/delivery-day-logistic.component';
+import { DeliveryVehiclesComponent } from './delivery-vehicles/delivery-vehicles.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { DeliveryTableComponent } from './delivery-table/delivery-table.componen
     DeliveryCalendarComponent,
     DeliveryComponent,
     LoginComponent,
-    DeliveryTableComponent
+    DeliveryTableComponent,
+    DeliveryDayLogisticComponent,
+    DeliveryVehiclesComponent
   ],
   imports: [
     BrowserModule,

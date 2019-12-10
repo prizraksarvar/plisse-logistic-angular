@@ -35,8 +35,7 @@
               [class.delivery-calendar__date-today]="formatterService.isToday(date)"
               [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
               [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
-              (click)="dateClick(date)"
-              matTooltip="5 первая половина дня |\n 5 вторая половина дня">
+              (click)="dateClick(date)">
         <span class="delivery-calendar__date-container" [matBadge]="getCountFirstPart(date)+'|'+getCountSecondPart(date)"
               [matBadgeHidden]="getCount(date)==0"
               matBadgePosition="above after" matBadgeColor="primary" matBadgeSize="small">
@@ -47,8 +46,7 @@
               [class.delivery-calendar__date-today]="formatterService.isToday(date)"
               [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
               [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
-              (click)="dateClick(date)"
-              matTooltip="5 первая половина дня |\n 5 вторая половина дня">
+              (click)="dateClick(date)">
         <span class="delivery-calendar__date-container" [matBadge]="getCountFirstPart(date)+'|'+getCountSecondPart(date)"
               [matBadgeHidden]="getCount(date)==0"
               matBadgePosition="above after" matBadgeColor="primary" matBadgeSize="small">

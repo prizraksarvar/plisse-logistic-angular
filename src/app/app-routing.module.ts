@@ -14,6 +14,7 @@ import {AuthGuard} from "./auth/auth.guard";
 import {LoginComponent} from "../login/login.component";
 import {VehicleResolverService} from "./vehicle/vehicle-resolver.service";
 import {UsersResolverService} from "./vehicle/users-resolver.service";
+import {DeliveryDayLogisticComponent} from "./delivery-day-logistic/delivery-day-logistic.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,7 +34,7 @@ const routes: Routes = [
               users: UsersResolverService
             } },
           { path: 'vehicles', component: VehiclesComponent, data: { animation: 'list' } },
-          { path: 'delivery/day/:year/:month/:date', component: DeliveryDayComponent, data: { animation: 'list' } },
+          { path: 'delivery/day/:year/:month/:date', component: DeliveryDayLogisticComponent, data: { animation: 'list' } },
           { path: 'delivery/month/:year/:month', component: DeliveryMonthComponent, data: { animation: 'list' } },
           { path: 'delivery/month', component: DeliveryMonthComponent, data: { animation: 'list' } },
           { path: 'delivery/:id/:year/:month/:date/:dayPart', component: DeliveryComponent, data: { animation: 'detail' } },
