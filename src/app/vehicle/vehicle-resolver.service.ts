@@ -5,13 +5,14 @@ import {EMPTY, Observable, of} from "rxjs";
 import {ApiService} from "../api.service";
 import {mergeMap, take} from "rxjs/operators";
 import {User} from "../entities/user";
+import {PreloaderService} from "../preloader/preloader.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehicleResolverService implements Resolve<Vehicle>{
 
-  constructor(private router: Router, private apiService: ApiService) { }
+  constructor(private router: Router, private preloaderService: PreloaderService, private apiService: ApiService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Vehicle> | Vehicle | Observable<never> {
     let id = route.paramMap.get('id');
@@ -20,6 +21,8 @@ export class VehicleResolverService implements Resolve<Vehicle>{
       return new Vehicle();
     }
 
+    let waitId = this.preloaderService.getWaitId();
+
     return new Observable<Vehicle>((s) => {
       this.apiService.getVehicle(id).then((r) => {
         s.next(r);
@@ -27,6 +30,7 @@ export class VehicleResolverService implements Resolve<Vehicle>{
     }).pipe(
       take(1),
       mergeMap(crisis => {
+        this.preloaderService.removeWait(waitId);
         if (crisis) {
           return of(crisis);
         } else { // id not found

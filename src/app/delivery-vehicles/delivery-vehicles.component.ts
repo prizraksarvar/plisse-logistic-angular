@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ApiService} from "../api.service";
+import {Vehicle} from "../entities/vehicle";
 
 @Component({
   selector: 'app-delivery-vehicles',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeliveryVehiclesComponent implements OnInit {
 
-  constructor() { }
+  public vehicles:Vehicle[];
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.apiService.getVehicles(0, 100).then((vehicles) => {
+      this.vehicles = vehicles;
+    });
   }
 
 }

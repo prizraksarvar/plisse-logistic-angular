@@ -1,3 +1,5 @@
 <mat-card class="mat-elevation-z8 delivery-vehicles">
-  <p>delivery-vehicles works!</p>
+  <div *ngFor="let vehicle of vehicles">
+    {{vehicle.name}}
+  </div>
 </mat-card>

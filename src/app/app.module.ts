@@ -19,7 +19,7 @@ import {
   MatPaginatorModule, MatSelectModule,
   MatTableModule,
   MatIconModule,
-  MatToolbarModule, MatMenuModule,
+  MatToolbarModule, MatMenuModule, MatProgressSpinnerModule,
 } from '@angular/material';
 import {ApiService} from './api.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -43,6 +43,8 @@ import {LoginComponent} from "../login/login.component";
 import { DeliveryTableComponent } from './delivery-table/delivery-table.component';
 import { DeliveryDayLogisticComponent } from './delivery-day-logistic/delivery-day-logistic.component';
 import { DeliveryVehiclesComponent } from './delivery-vehicles/delivery-vehicles.component';
+import {PreloaderComponent} from "./preloader/preloader.component";
+import {PreloaderService} from "./preloader/preloader.service";
 
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import { DeliveryVehiclesComponent } from './delivery-vehicles/delivery-vehicles
     LoginComponent,
     DeliveryTableComponent,
     DeliveryDayLogisticComponent,
-    DeliveryVehiclesComponent
+    DeliveryVehiclesComponent,
+    PreloaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +90,7 @@ import { DeliveryVehiclesComponent } from './delivery-vehicles/delivery-vehicles
     MatMenuModule,
     MatBadgeModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
     // LoginModule,
   ],
   providers: [
@@ -94,6 +98,7 @@ import { DeliveryVehiclesComponent } from './delivery-vehicles/delivery-vehicles
     FormControlService,
     FormatterService,
     AuthService,
+    PreloaderService
   ],
   exports: [
   ],

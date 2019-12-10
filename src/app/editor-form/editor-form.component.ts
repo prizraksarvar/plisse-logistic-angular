@@ -57,10 +57,12 @@ export class EditorFormComponent implements OnInit {
       this.element[control.key] = this.form.controls[control.key].value;
     });
     this.onSave(this.element);
+    return false;
   }
 
   cancel() {
     this.onCancel();
+    return false;
   }
 
   isValid(control: BaseControl<any>) {
