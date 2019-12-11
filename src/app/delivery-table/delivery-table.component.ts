@@ -87,8 +87,13 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
       .wrapPreloader(this.apiService.updateDelivery({id: element.id, dateTime: date} as Delivery))
       .then(() => {
         this.initTable();
-      });
+      }).catch(this.errorHandler.bind(this));
     return false;
+  }
+
+  errorHandler(e) {
+    alert(e.error.error.message);
+    throw new Error("error");
   }
 
   getStartDate() {

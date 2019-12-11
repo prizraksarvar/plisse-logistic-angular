@@ -63,15 +63,20 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
-  save(delivery: Delivery) {
+  async save(delivery: Delivery) {
     delivery.dateTime = this.currentDay;
     if (delivery.id > 0) {
-      this.apiService.updateDelivery(delivery);
+      await this.apiService.updateDelivery(delivery).catch(this.errorHandler.bind(this));
     } else {
-      this.apiService.createDelivery(delivery);
+      await this.apiService.createDelivery(delivery).catch().catch(this.errorHandler.bind(this));
     }
     this.router.navigate(['/delivery/day', this.currentDay.getFullYear(), this.currentDay.getMonth(), this.currentDay.getDate()]);
     return false;
+  }
+
+  errorHandler(e) {
+    alert(e.error.error.message);
+    throw new Error("error");
   }
 
   cancel() {
