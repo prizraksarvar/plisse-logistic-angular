@@ -18,6 +18,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   dataSource = new MatTableDataSource<Delivery>([]);
   editRoute = '/delivery';
   count = 0;
+  vehicles: Vehicle[];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   private subscription: Subscription;
@@ -25,6 +26,10 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
+    this.vehicles = [];
+    this.apiService.getVehicles(0, 100).then((vehicles)=>{
+      this.vehicles = vehicles;
+    });
     this.subscription = this.paginator.page.subscribe(() => {
       this.initTable();
     });
