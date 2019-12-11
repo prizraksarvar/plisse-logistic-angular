@@ -15,6 +15,13 @@ export class PreloaderService {
     this.hide();
   }
 
+  public wrapPreloader<T>(v:Promise<T>):Promise<T> {
+    let waitId = this.getWaitId();
+    return v.finally(()=>{
+      this.removeWait(waitId);
+    });
+  }
+
   public getWaitId() {
     if (this.waitIds.length==0) {
       this.show();

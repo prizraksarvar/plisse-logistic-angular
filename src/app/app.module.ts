@@ -19,7 +19,7 @@ import {
   MatPaginatorModule, MatSelectModule,
   MatTableModule,
   MatIconModule,
-  MatToolbarModule, MatMenuModule, MatProgressSpinnerModule,
+  MatToolbarModule, MatMenuModule, MatProgressSpinnerModule, MatDatepickerModule, MatNativeDateModule,
 } from '@angular/material';
 import {ApiService} from './api.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -91,6 +91,8 @@ import {PreloaderService} from "./preloader/preloader.service";
     MatBadgeModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     // LoginModule,
   ],
   providers: [

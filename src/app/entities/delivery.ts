@@ -11,6 +11,7 @@ export class Delivery {
   comment = '';
   createdTime:Date;
   dateTime:Date;
+  time:string;
   vehicleAssignTime:Date;
   completedTime:Date;
   completed = false;

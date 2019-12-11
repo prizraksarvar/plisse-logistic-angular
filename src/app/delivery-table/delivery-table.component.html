@@ -11,6 +11,11 @@
       <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.id}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="time">
+      <th mat-header-cell *matHeaderCellDef> Время</th>
+      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.time}} </td>
+    </ng-container>
+
     <ng-container matColumnDef="invoices">
       <th mat-header-cell *matHeaderCellDef> Счета</th>
       <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]">
@@ -45,19 +50,15 @@
 
     <ng-container matColumnDef="vehicle">
       <th mat-header-cell *matHeaderCellDef> Машина</th>
-      <td mat-cell *matCellDef="let element"> 
-        <span *ngIf="element.vehicle">
-        {{element.vehicle.name}} 
-        </span>
-        <span *ngIf="!element.vehicle">
-           <button mat-button [matMenuTriggerFor]="mmenuVehicle">Выбрать</button>
-           <mat-menu #menuVehicle="matMenu">
-            <button *ngFor="let v of vehicles" mat-menu-item>
-             {{v.name}}
-            </button>
-           </mat-menu>
-        </span>
-        </td>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button
+                [matMenuTriggerFor]="menuVehicle"> {{element.vehicle ? element.vehicle.name : 'Выбрать' }} </button>
+        <mat-menu #menuVehicle="matMenu">
+          <button *ngFor="let v of vehicles" mat-menu-item (click)="setVehicle(element,v.id)">
+            {{v.name}}
+          </button>
+        </mat-menu>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="createrUser">
@@ -69,7 +70,14 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element" class="app-table-row-actions">
-        <mat-icon aria-hidden="false" aria-label="Удалить" color="warn" (click)="remove(element.id)">delete</mat-icon>
+        <input class="delivery-date-picker" matInput [matDatepicker]="picker" [min]="getStartDate()" placeholder="Choose a date"
+               (dateChange)="setDate(element,$event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker aria-label="Переместить" ></mat-datepicker>
+
+        <button mat-icon-button aria-hidden="false" aria-label="Удалить" (click)="remove(element.id)">
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
       </td>
     </ng-container>
 
@@ -77,6 +85,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100, 200]" pageSize="20" showFirstLastButtons
-                 [length]="count"></mat-paginator>
+  <!--mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100, 200]" pageSize="20" showFirstLastButtons
+                 [length]="count"></mat-paginator-->
 </div>

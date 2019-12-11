@@ -1,4 +1,4 @@
-<div class="delivery-day-logistic">
+<div *ngIf="initialized" class="delivery-day-logistic">
   <app-delivery-day></app-delivery-day>
-  <app-delivery-vehicles></app-delivery-vehicles>
+  <app-delivery-vehicles [date]="currentDay"></app-delivery-vehicles>
 </div>

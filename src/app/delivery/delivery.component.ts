@@ -114,6 +114,11 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       label: 'Коментарий',
     }));
     this.controls.push(new TextboxControl({
+      key: 'time',
+      type: 'text',
+      label: 'Время',
+    }));
+    this.controls.push(new TextboxControl({
       key: 'dateTime',
       type: 'text',
       label: 'Дата',

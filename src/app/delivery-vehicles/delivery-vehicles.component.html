@@ -1,5 +1,15 @@
-<mat-card class="mat-elevation-z8 delivery-vehicles">
-  <div *ngFor="let vehicle of vehicles">
-    {{vehicle.name}}
-  </div>
-</mat-card>
+<div *ngIf="initialized">
+  <mat-card class="mat-elevation-z8 delivery-vehicles" *ngFor="let vehicle of vehicles">
+    <h5>{{vehicle.name}}</h5>
+    <h6>Первая половина дня</h6>
+    <div *ngFor="let delivery of getFirstPartDeliveries(vehicle.id)">
+      <mat-divider></mat-divider>
+      <div class="delivery-vehicles__delivery">{{delivery.id}} {{delivery.recipientName}} {{delivery.phone}}</div>
+    </div>
+    <h6>Вторая половина дня</h6>
+    <div *ngFor="let delivery of getSecondPartDeliveries(vehicle.id)">
+      <mat-divider></mat-divider>
+      <div class="delivery-vehicles__delivery">{{delivery.id}} {{delivery.recipientName}} {{delivery.phone}}</div>
+    </div>
+  </mat-card>
+</div>
