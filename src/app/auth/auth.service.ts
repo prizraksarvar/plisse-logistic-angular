@@ -1,26 +1,40 @@
 import { Injectable } from '@angular/core';
 import {Observable, of} from "rxjs";
-import {delay, tap} from "rxjs/operators";
+import {delay, mergeMap, take, tap} from "rxjs/operators";
+import {ApiService} from "../api.service";
+import {User} from "../entities/user";
+import {fromPromise} from "rxjs/internal-compatibility";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   isLoggedIn = false;
-
-  // store the URL so we can redirect after logging in
+  user: User;
   redirectUrl: string;
 
-  login(): Observable<boolean> {
-    return of(true).pipe(
-      delay(300),
-      tap(val => this.isLoggedIn = true)
-    );
+  constructor(private apiService: ApiService) { }
+
+  async login(data: Credentials): Promise<boolean> {
+    let r = await this.apiService.login(data);
+    window.localStorage.setItem("auth_token", r.token);
+    this.isLoggedIn = !!r.token;
+    return this.isLoggedIn;
+  }
+
+  async checkAuth() {
+    let token = window.localStorage.getItem("auth_token");
+    if (token) {
+
+    }
   }
 
   logout(): void {
     this.isLoggedIn = false;
   }
+}
 
-  constructor() { }
+export class Credentials {
+  login: string;
+  password: string;
 }

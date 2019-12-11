@@ -4,6 +4,7 @@ import {User} from './entities/user';
 import {Role} from './entities/role';
 import {Vehicle} from "./entities/vehicle";
 import {Delivery} from "./entities/delivery"
+import {Credentials} from "./auth/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
+
+  public login(data: Credentials): Promise<{ token: string }> {
+    return this.http.post(
+      this.API_URL + '/users/login', data, this.getOptions()).toPromise() as Promise<{ token: string }>;
+  }
 
   public getUsersCount(): Promise<{ count: number }> {
     return this.http.get(
@@ -133,7 +139,13 @@ export class ApiService {
 
 
   private getOptions() {
-    return {headers: {'Content-Type': 'application/json'}};
+    let token = window.localStorage.getItem("auth_token");
+    return {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token?'Bearer '+token: ''
+      }
+    };
   }
 
   private timeZoneFix(date: Date) {

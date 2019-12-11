@@ -1,5 +1,16 @@
-<div>
-  <div (click)="loginStateSwitch()">
-    {{logged?'Выйти':'Войти'}}
+
+  <div class="login-form-container">
+    <mat-card class="mat-elevation-z8 login-form">
+      <form class="" [formGroup]="form">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Логин" [formControl]="login">
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Пароль" [formControl]="password" type="password">
+        </mat-form-field>
+
+        <button (click)="loginStateSwitch()">Войти</button>
+      </form>
+    </mat-card>
   </div>
-</div>
