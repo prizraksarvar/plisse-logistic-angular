@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
 import {MatDatepicker, MatDatepickerInputEvent, MatPaginator, MatTableDataSource} from "@angular/material";
 import {Vehicle} from "../entities/vehicle";
 import {of, Subscription} from "rxjs";
@@ -14,6 +14,7 @@ import {PreloaderService} from "../preloader/preloader.service";
 export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dayPart: 1 | 2;
   @Input() date: Date;
+  @Output() change: EventEmitter<void> = new EventEmitter<void>();
   currentDate: Date;
   displayedColumns: string[] = ['id', 'time', 'invoices', 'organization', 'address', 'phone', 'recipientName', 'comment', 'vehicle', 'createrUser', 'actions'];
   dataSource = new MatTableDataSource<Delivery>([]);
@@ -66,6 +67,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
       return;
     this.apiService.deleteDelivery(id).then((r) => {
       this.initTable();
+      this.change.emit();
     });
   }
 
@@ -74,6 +76,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
       .wrapPreloader(this.apiService.updateDelivery({id: element.id, vehicleId: vehicleId} as Delivery))
       .then(() => {
         this.initTable();
+        this.change.emit();
       });
     return false;
   }
@@ -87,6 +90,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
       .wrapPreloader(this.apiService.updateDelivery({id: element.id, dateTime: date} as Delivery))
       .then(() => {
         this.initTable();
+        this.change.emit();
       }).catch(this.errorHandler.bind(this));
     return false;
   }

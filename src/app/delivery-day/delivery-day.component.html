@@ -14,11 +14,11 @@
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Первая половина дня</div>
-    <app-delivery-table dayPart="1" [date]="currentDay"></app-delivery-table>
+    <app-delivery-table dayPart="1" [date]="currentDay" (change)="change.emit()"></app-delivery-table>
   </div>
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Вторая половина дня</div>
-    <app-delivery-table dayPart="2" [date]="currentDay"></app-delivery-table>
+    <app-delivery-table dayPart="2" [date]="currentDay" (change)="change.emit()"></app-delivery-table>
   </div>
 </mat-card>

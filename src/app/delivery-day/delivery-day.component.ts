@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from "rxjs";
 import {ApiService} from "../api.service";
 import {ActivatedRoute, ParamMap} from "@angular/router";
@@ -11,6 +11,7 @@ import {Delivery} from "../entities/delivery";
   styleUrls: ['./delivery-day.component.scss']
 })
 export class DeliveryDayComponent implements OnInit, OnDestroy {
+  @Output() change: EventEmitter<void> = new EventEmitter<void>();
   public initialized = false;
   public currentDay: Date;
   public previosDate: Date;

@@ -22,6 +22,11 @@ export class ApiService {
       this.API_URL + '/users/login', data, this.getOptions()).toPromise() as Promise<{ token: string }>;
   }
 
+  public getUserProfile(): Promise<User> {
+    return this.http.get(
+      this.API_URL + '​/users/me', this.getOptions()).toPromise() as Promise<User>;
+  }
+
   public getUsersCount(): Promise<{ count: number }> {
     return this.http.get(
       this.API_URL + '/users/count', this.getOptions()).toPromise() as Promise<{ count: number }>;

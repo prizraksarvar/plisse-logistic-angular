@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../app/auth/auth.service";
 import {Router} from "@angular/router";
 import {FormControl, FormGroup} from "@angular/forms";
+import {PreloaderService} from "../app/preloader/preloader.service";
 
 @Component({
   selector: 'app-login',
@@ -14,12 +15,14 @@ export class LoginComponent implements OnInit {
   password = new FormControl();
   form:FormGroup;
 
-  constructor(private authService:AuthService, private router:Router) {
+  constructor(private authService:AuthService, private router:Router, private preloaderService: PreloaderService) {
     this.form = new FormGroup({login: this.login, password: this.password});
   }
 
   ngOnInit() {
-
+    this.preloaderService.wrapPreloader(this.authService.checkAuth()).then((r) => {
+      this.returnToAdmin(r);
+    });
   }
 
   loginStateSwitch() {
@@ -27,18 +30,12 @@ export class LoginComponent implements OnInit {
       this.authService.logout();
     }
     else {
-      this.authService.login({
+      this.preloaderService.wrapPreloader(this.authService.login({
         login: this.login.value,
         password: this.password.value
-      }).then((r) => {
+      })).then((r) => {
         console.log(r);
-        if (r) {
-          if (this.authService.redirectUrl) {
-            this.router.navigate([this.authService.redirectUrl]);
-          } else {
-            this.router.navigate(['']);
-          }
-        }
+        this.returnToAdmin(r);
       }).catch((e) => {
         alert(e.error.error.message);
       });
@@ -47,5 +44,15 @@ export class LoginComponent implements OnInit {
 
   get logged():boolean {
     return this.authService.isLoggedIn;
+  }
+
+  private returnToAdmin(r:boolean) {
+    if (r) {
+      if (this.authService.redirectUrl) {
+        this.router.navigate([this.authService.redirectUrl]);
+      } else {
+        this.router.navigate(['']);
+      }
+    }
   }
 }

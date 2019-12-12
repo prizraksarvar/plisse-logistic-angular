@@ -30,4 +30,10 @@ export class DeliveryDayLogisticComponent implements OnInit, OnDestroy {
     this.routeSubscription.unsubscribe();
   }
 
+  changed() {
+    this.initialized = false;
+    setTimeout(()=>{
+      this.initialized = true;
+    },100);
+  }
 }

@@ -3,6 +3,7 @@ import {BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout
 import {RouterOutlet} from "@angular/router";
 import {fadeAnimation} from "./animations";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {AuthService} from "./auth/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,11 @@ export class AppComponent implements OnDestroy {
 
   private _mobileQueryListener: () => void;
 
-  constructor(breakpointObserver: BreakpointObserver, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(
+    public authService: AuthService,
+    breakpointObserver: BreakpointObserver,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher) {
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
