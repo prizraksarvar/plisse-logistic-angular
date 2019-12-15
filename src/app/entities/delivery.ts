@@ -11,6 +11,7 @@ export class Delivery {
   comment = '';
   createdTime:Date;
   dateTime:Date;
+  type:DeliveryType;
   time:string;
   vehicleAssignTime:Date;
   completedTime:Date;
@@ -19,4 +20,16 @@ export class Delivery {
   vehicle: Vehicle;
   createrUserId:number;
   createrUser: User;
+}
+
+export enum DeliveryType {
+  firstDayPart=0,
+  secondDayPart=1,
+  internalDelivery=2
+}
+
+export class DeliveryCountByDate {
+  count?: number;
+  type?: number;
+  datetime?: string;
 }

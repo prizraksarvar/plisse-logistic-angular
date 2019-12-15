@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ApiService} from '../api.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {Delivery} from '../entities/delivery';
+import {Delivery, DeliveryType} from '../entities/delivery';
 import {BaseControl} from '../editor-form/base-control';
 import {TextboxControl} from '../editor-form/textbox-control';
 import {CheckboxControl} from '../editor-form/checkbox-control';
@@ -19,7 +19,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
   public controls: BaseControl<any>[] = [];
   public currentDay: Date;
-  public dayPart = 1;
+  public dayType:DeliveryType = 0;
 
   private routeSubscription: Subscription;
 
@@ -43,14 +43,13 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       const dayPart = params.get('dayPart');
       this.initControls();
       if (dayPart) {
-        this.dayPart = parseInt(dayPart);
-      }
-      if (this.dayPart==2) {
-        this.currentDay.setHours(4);
+        this.dayType = parseInt(dayPart);
       }
       if (id !== 'add') {
         this.apiService.getDelivery(id).then((delivery) => {
           this.delivery = delivery;
+          console.log();
+          this.currentDay = delivery.dateTime;
           this.initialized = true;
         });
       } else {
@@ -65,6 +64,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
   async save(delivery: Delivery) {
     delivery.dateTime = this.currentDay;
+    delivery.type = this.dayType;
     if (delivery.id > 0) {
       await this.apiService.updateDelivery(delivery).catch(this.errorHandler.bind(this));
     } else {

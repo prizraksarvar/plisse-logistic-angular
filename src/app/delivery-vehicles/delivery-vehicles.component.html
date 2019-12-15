@@ -1,15 +1,26 @@
 <div *ngIf="initialized">
   <mat-card class="mat-elevation-z8 delivery-vehicles" *ngFor="let vehicle of vehicles">
     <h5>{{vehicle.name}}</h5>
-    <h6>Первая половина дня</h6>
-    <div *ngFor="let delivery of getFirstPartDeliveries(vehicle.id)">
+    <div *ngIf="getFirstPartDeliveries(vehicle.id).length>0">
       <mat-divider></mat-divider>
-      <div class="delivery-vehicles__delivery">{{delivery.id}} {{delivery.recipientName}} {{delivery.phone}}</div>
+      <h6>Первая половина дня</h6>
+      <div *ngFor="let delivery of getFirstPartDeliveries(vehicle.id)">
+        <div class="delivery-vehicles__delivery">{{delivery.id}} {{delivery.recipientName}} {{delivery.phone}}</div>
+      </div>
     </div>
-    <h6>Вторая половина дня</h6>
-    <div *ngFor="let delivery of getSecondPartDeliveries(vehicle.id)">
+    <div *ngIf="getSecondPartDeliveries(vehicle.id).length>0">
       <mat-divider></mat-divider>
-      <div class="delivery-vehicles__delivery">{{delivery.id}} {{delivery.recipientName}} {{delivery.phone}}</div>
+      <h6>Вторая половина дня</h6>
+      <div *ngFor="let delivery of getSecondPartDeliveries(vehicle.id)">
+        <div class="delivery-vehicles__delivery">{{delivery.id}} {{delivery.recipientName}} {{delivery.phone}}</div>
+      </div>
+    </div>
+    <div *ngIf="getInternalDeliveries(vehicle.id).length>0">
+      <mat-divider></mat-divider>
+      <h6>Внутренние доставки</h6>
+      <div *ngFor="let delivery of getInternalDeliveries(vehicle.id)">
+        <div class="delivery-vehicles__delivery">{{delivery.id}} {{delivery.recipientName}} {{delivery.phone}}</div>
+      </div>
     </div>
   </mat-card>
 </div>

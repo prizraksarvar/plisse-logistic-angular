@@ -3,7 +3,7 @@ import {MatDatepicker, MatDatepickerInputEvent, MatPaginator, MatTableDataSource
 import {Vehicle} from "../entities/vehicle";
 import {of, Subscription} from "rxjs";
 import {ApiService} from "../api.service";
-import {Delivery} from "../entities/delivery";
+import {Delivery, DeliveryType} from "../entities/delivery";
 import {PreloaderService} from "../preloader/preloader.service";
 
 @Component({
@@ -12,7 +12,7 @@ import {PreloaderService} from "../preloader/preloader.service";
   styleUrls: ['./delivery-table.component.scss']
 })
 export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() dayPart: 1 | 2;
+  @Input() dayType: DeliveryType;
   @Input() date: Date;
   @Output() change: EventEmitter<void> = new EventEmitter<void>();
   currentDate: Date;
@@ -41,8 +41,8 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     this.currentDate = new Date(this.date);
-    this.currentDate.setHours(this.currentDate.getHours() + this.dayPart == 1 ? 0 : 4);
-    this.apiService.getDeliveriesCount(this.currentDate).then((countObj) => {
+    this.currentDate.setHours(this.currentDate.getHours(),0,0,0);
+    this.apiService.getDeliveriesCount(this.currentDate, this.dayType).then((countObj) => {
       this.count = countObj.count;
       this.initTable();
     });
@@ -56,7 +56,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
 
   initTable() {
     this.preloaderService
-      .wrapPreloader(this.apiService.getDeliveries(0,100, this.currentDate)) //this.paginator.pageIndex * this.paginator.pageSize, this.paginator.pageSize,
+      .wrapPreloader(this.apiService.getDeliveries(0,100, this.currentDate, this.dayType)) //this.paginator.pageIndex * this.paginator.pageSize, this.paginator.pageSize,
       .then((deliveries) => {
         this.dataSource.data = deliveries;
       });
@@ -85,7 +85,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
     if (!event.value)
       return true;
     let date = new Date(event.value);
-    date.setHours(this.currentDate.getHours() + this.dayPart == 1 ? 0 : 4, 0, 0, 0);
+    date.setHours(this.currentDate.getHours(), 0, 0, 0);
     this.preloaderService
       .wrapPreloader(this.apiService.updateDelivery({id: element.id, dateTime: date} as Delivery))
       .then(() => {

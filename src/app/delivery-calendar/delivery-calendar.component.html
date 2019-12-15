@@ -36,10 +36,14 @@
               [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
               [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
               (click)="dateClick(date)">
+        <span class="delivery-calendar__date-container" [matBadge]="''+getCountInternal(date)"
+              [matBadgeHidden]="getCountInternal(date)==0"
+              matBadgePosition="above before" matBadgeColor="accent" matBadgeSize="small">
+          {{date.getDate()}}
+        </span>
         <span class="delivery-calendar__date-container" [matBadge]="getCountFirstPart(date)+'|'+getCountSecondPart(date)"
               [matBadgeHidden]="getCount(date)==0"
               matBadgePosition="above after" matBadgeColor="primary" matBadgeSize="small">
-          {{date.getDate()}}
         </span>
       </button>
       <button *ngIf="size!='big'" mat-icon-button class="delivery-calendar__date"
@@ -47,10 +51,14 @@
               [class.delivery-calendar__date-other-month]="isOtherMonth(date)"
               [class.delivery-calendar__date-weekend]="formatterService.isWeekend(date)"
               (click)="dateClick(date)">
+        <span class="delivery-calendar__date-container" [matBadge]="''+getCountInternal(date)"
+              [matBadgeHidden]="getCountInternal(date)==0"
+              matBadgePosition="above before" matBadgeColor="accent" matBadgeSize="small">
+          {{date.getDate()}}
+        </span>
         <span class="delivery-calendar__date-container" [matBadge]="getCountFirstPart(date)+'|'+getCountSecondPart(date)"
               [matBadgeHidden]="getCount(date)==0"
               matBadgePosition="above after" matBadgeColor="primary" matBadgeSize="small">
-          {{date.getDate()}}
         </span>
       </button>
     </ng-template>

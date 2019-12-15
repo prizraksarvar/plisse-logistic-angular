@@ -3,6 +3,7 @@ import {Subscription} from "rxjs";
 import {ApiService} from "../api.service";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {FormatterService} from "../formatter.service";
+import {DeliveryType} from "../entities/delivery";
 
 @Component({
   selector: 'app-delivery-calendar',
@@ -21,6 +22,7 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
   public years: Date[];
   public countsByDate: {
     [index:string]:{
+      0:number,
       1:number,
       2:number,
     }
@@ -115,17 +117,17 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
       this.countsByDate = {};
       r.forEach((i) => {
         const datetime = new Date(Date.parse(i.datetime));
-        const dayPart = datetime.getHours()==0?1:2;
-        console.log(datetime.getHours());
+        const type = i.type;
         const date = datetime.getFullYear()+'-'+datetime.getMonth()+'-'+datetime.getDate();
         let d = this.countsByDate[date];
         if (!d) {
           d = {
+            0:0,
             1:0,
             2:0,
           };
         }
-        d[dayPart] = i.count;
+        d[type] = i.count;
         this.countsByDate[date] = d;
       });
     });
@@ -141,12 +143,17 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
 
   getCountFirstPart(date: Date) {
     const sdate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();
-    return this.countsByDate[sdate]?this.countsByDate[sdate][1]:0;
+    return this.countsByDate[sdate]?this.countsByDate[sdate][DeliveryType.firstDayPart]:0;
   }
 
   getCountSecondPart(date: Date) {
     const sdate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();
-    return this.countsByDate[sdate]?this.countsByDate[sdate][2]:0;
+    return this.countsByDate[sdate]?this.countsByDate[sdate][DeliveryType.secondDayPart]:0;
+  }
+
+  getCountInternal(date: Date) {
+    const sdate = date.getFullYear()+'-'+date.getMonth()+'-'+date.getDate();
+    return this.countsByDate[sdate]?this.countsByDate[sdate][DeliveryType.internalDelivery]:0;
   }
 
   getCount(date: Date) {

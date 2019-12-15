@@ -2,7 +2,7 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ApiService} from "../api.service";
 import {Vehicle} from "../entities/vehicle";
 import {PreloaderService} from "../preloader/preloader.service";
-import {Delivery} from "../entities/delivery";
+import {Delivery, DeliveryType} from "../entities/delivery";
 
 @Component({
   selector: 'app-delivery-vehicles',
@@ -15,6 +15,7 @@ export class DeliveryVehiclesComponent implements OnInit, OnChanges {
   vehicles: Vehicle[];
   deliveriesFirstPart: Delivery[] = [];
   deliveriesSecondPart: Delivery[] = [];
+  deliveriesInternalPart: Delivery[] = [];
 
   constructor(private apiService: ApiService, private preloaderService: PreloaderService) {
   }
@@ -27,17 +28,19 @@ export class DeliveryVehiclesComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
     this.initialized = false;
-    let firstPartDate = new Date(this.date);
-    let secondPartDate = new Date(this.date);
-    secondPartDate.setHours(secondPartDate.getHours() + 4);
+    let date = new Date(this.date);
     this.preloaderService
-      .wrapPreloader(Promise.all([this.apiService.getDeliveries(0, 100, firstPartDate)
+      .wrapPreloader(Promise.all([this.apiService.getDeliveries(0, 100, date, DeliveryType.firstDayPart)
         .then((deliveries) => {
           this.deliveriesFirstPart = deliveries;
         }),
-        this.apiService.getDeliveries(0, 100, secondPartDate)
+        this.apiService.getDeliveries(0, 100, date, DeliveryType.secondDayPart)
           .then((deliveries) => {
             this.deliveriesSecondPart = deliveries;
+          }),
+        this.apiService.getDeliveries(0, 100, date, DeliveryType.internalDelivery)
+          .then((deliveries) => {
+            this.deliveriesInternalPart = deliveries;
           })])).then(() => {
       this.initialized = true;
     });
@@ -49,5 +52,9 @@ export class DeliveryVehiclesComponent implements OnInit, OnChanges {
 
   getSecondPartDeliveries(vehicleId: number) {
     return this.deliveriesSecondPart.filter((d) => d.vehicleId == vehicleId);
+  }
+
+  getInternalDeliveries(vehicleId: number) {
+    return this.deliveriesInternalPart.filter((d) => d.vehicleId == vehicleId);
   }
 }
