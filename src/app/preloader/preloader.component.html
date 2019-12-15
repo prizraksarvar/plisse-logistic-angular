@@ -1,4 +1,4 @@
-<div [@preloaderAnimation]>
+<div [@preloaderAnimation]="isShown ? true : false">
   <div *ngIf="isShown" class="preloader-container" >
     <div class="preloader-spinner">
       <mat-spinner></mat-spinner>
