@@ -10,8 +10,8 @@ import {Credentials} from "./auth/auth.service";
   providedIn: 'root'
 })
 export class ApiService {
-  //API_URL = 'http://localhost:3000/api';
-  API_URL = 'https://plisse-logistic.sarvarcorp.ru/api';
+  //API_URL = 'http://localhost:3000';
+  API_URL = 'https://plisse-logistic.sarvarcorp.ru';
 
   constructor(private http: HttpClient) {
   }
