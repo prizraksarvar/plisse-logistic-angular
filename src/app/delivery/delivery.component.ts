@@ -7,6 +7,7 @@ import {TextboxControl} from '../editor-form/textbox-control';
 import {CheckboxControl} from '../editor-form/checkbox-control';
 import {PhoneControlMask} from '../editor-form/masks/phone-control-mask';
 import {Subscription} from "rxjs";
+import {AuthService} from "../auth/auth.service";
 
 @Component({
   selector: 'app-delivery',
@@ -21,13 +22,30 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   public currentDay: Date;
   public dayType:DeliveryType = 0;
 
+  private routeLink = "";
   private routeSubscription: Subscription;
+  private userSubscription: Subscription;
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private apiService: ApiService,
+    private route: ActivatedRoute,
+    private router: Router) {
     // this.initControls();
   }
 
   ngOnInit() {
+    this.userSubscription = this.authService.user.subscribe((user) => {
+      if (!user) {
+        this.routeLink = "";
+      } else if (user.roleId==1 || user.roleId==2) {
+        this.routeLink = "/delivery/day";
+      } else if (user.roleId==3) {
+        this.routeLink = "/manager/delivery/day";
+      } else if (user.roleId==4) {
+        this.routeLink = "/driver/delivery/day";
+      }
+    });
     this.routeSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
       this.delivery = new Delivery();
       const id = params.get('id');
@@ -59,6 +77,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
     this.routeSubscription.unsubscribe();
   }
 
@@ -70,7 +89,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     } else {
       await this.apiService.createDelivery(delivery).catch().catch(this.errorHandler.bind(this));
     }
-    this.router.navigate(['/delivery/day', this.currentDay.getFullYear(), this.currentDay.getMonth(), this.currentDay.getDate()]);
+    this.router.navigate([this.routeLink, this.currentDay.getFullYear(), this.currentDay.getMonth(), this.currentDay.getDate()]);
     return false;
   }
 
@@ -80,7 +99,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   }
 
   cancel() {
-    this.router.navigate(['/delivery/day', this.currentDay.getFullYear(), this.currentDay.getMonth(), this.currentDay.getDate()]);
+    this.router.navigate([this.routeLink, this.currentDay.getFullYear(), this.currentDay.getMonth(), this.currentDay.getDate()]);
     return false;
   }
 

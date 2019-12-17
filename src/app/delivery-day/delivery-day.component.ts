@@ -4,6 +4,7 @@ import {ApiService} from "../api.service";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 import {FormatterService} from "../formatter.service";
 import {Delivery} from "../entities/delivery";
+import {TableAction} from "../entities/table-action";
 
 @Component({
   selector: 'app-delivery-day',
@@ -11,6 +12,10 @@ import {Delivery} from "../entities/delivery";
   styleUrls: ['./delivery-day.component.scss']
 })
 export class DeliveryDayComponent implements OnInit, OnDestroy {
+  @Input() routeLink:string;
+  @Input() editDisabled:boolean;
+  @Input() addDisabled:boolean;
+  @Input() additionalActions: TableAction[];
   @Output() change: EventEmitter<void> = new EventEmitter<void>();
   public initialized = false;
   public currentDay: Date;

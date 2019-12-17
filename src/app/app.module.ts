@@ -37,14 +37,15 @@ import { DeliveryDayComponent } from './delivery-day/delivery-day.component';
 import {FormatterService} from "./formatter.service";
 import { DeliveryCalendarComponent } from './delivery-calendar/delivery-calendar.component';
 import { DeliveryComponent } from './delivery/delivery.component';
-import {LoginModule} from "../login/login.module";
 import {AuthService} from "./auth/auth.service";
-import {LoginComponent} from "../login/login.component";
+import {LoginComponent} from "./login/login.component";
 import { DeliveryTableComponent } from './delivery-table/delivery-table.component';
 import { DeliveryDayLogisticComponent } from './delivery-day-logistic/delivery-day-logistic.component';
 import { DeliveryVehiclesComponent } from './delivery-vehicles/delivery-vehicles.component';
 import {PreloaderComponent} from "./preloader/preloader.component";
 import {PreloaderService} from "./preloader/preloader.service";
+import { DeliveryDayManagerComponent } from './delivery-day-manager/delivery-day-manager.component';
+import { DeliveryDayDriverComponent } from './delivery-day-driver/delivery-day-driver.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,8 @@ import {PreloaderService} from "./preloader/preloader.service";
     DeliveryDayLogisticComponent,
     DeliveryVehiclesComponent,
     PreloaderComponent,
+    DeliveryDayManagerComponent,
+    DeliveryDayDriverComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,29 +1,33 @@
 <mat-card *ngIf="initialized" class="mat-elevation-z8 delivery-day">
   <div class="delivery-day__header">
-    <button mat-button [routerLink]="['/delivery/day',previosDate.getFullYear(),previosDate.getMonth(),previosDate.getDate()]">
+    <button mat-button
+            [routerLink]="[routeLink,previosDate.getFullYear(),previosDate.getMonth(),previosDate.getDate()]">
       <mat-icon aria-hidden="false" aria-label="Предыдущий день" color="primary">keyboard_arrow_left</mat-icon>
     </button>
     <button mat-button
             [routerLink]="['/delivery/month',currentDay.getFullYear(),currentDay.getMonth()]">
       {{formatterService.isToday(currentDay) ? 'Сегодня, ' : ''}}
       {{currentDay.getDate()}} {{formatterService.getMonthNameWithNumber(currentDay.getMonth())}} {{currentDay.getFullYear()}}</button>
-    <button mat-button [routerLink]="['/delivery/day',nextDate.getFullYear(),nextDate.getMonth(),nextDate.getDate()]">
+    <button mat-button [routerLink]="[routeLink,nextDate.getFullYear(),nextDate.getMonth(),nextDate.getDate()]">
       <mat-icon aria-hidden="false" aria-label="Следующий день" color="primary">keyboard_arrow_right</mat-icon>
     </button>
   </div>
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Первая половина дня</div>
-    <app-delivery-table dayType="0" [date]="currentDay" (change)="change.emit()"></app-delivery-table>
+    <app-delivery-table dayType="0" [date]="currentDay" (change)="change.emit()" [addDisabled]="addDisabled"
+                        [editDisabled]="editDisabled" [additionalActions]="additionalActions"></app-delivery-table>
   </div>
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Вторая половина дня</div>
-    <app-delivery-table dayType="1" [date]="currentDay" (change)="change.emit()"></app-delivery-table>
+    <app-delivery-table dayType="1" [date]="currentDay" (change)="change.emit()" [addDisabled]="addDisabled"
+                        [editDisabled]="editDisabled" [additionalActions]="additionalActions"></app-delivery-table>
   </div>
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Внутренние доставки</div>
-    <app-delivery-table dayType="2" [date]="currentDay" (change)="change.emit()"></app-delivery-table>
+    <app-delivery-table dayType="2" [date]="currentDay" (change)="change.emit()" [addDisabled]="addDisabled"
+                        [editDisabled]="editDisabled" [additionalActions]="additionalActions"></app-delivery-table>
   </div>
 </mat-card>

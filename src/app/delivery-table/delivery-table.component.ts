@@ -5,6 +5,8 @@ import {of, Subscription} from "rxjs";
 import {ApiService} from "../api.service";
 import {Delivery, DeliveryType} from "../entities/delivery";
 import {PreloaderService} from "../preloader/preloader.service";
+import {TableAction} from "../entities/table-action";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-delivery-table',
@@ -15,6 +17,9 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dayType: DeliveryType;
   @Input() date: Date;
   @Output() change: EventEmitter<void> = new EventEmitter<void>();
+  @Input() editDisabled:boolean;
+  @Input() addDisabled:boolean;
+  @Input() additionalActions: TableAction[];
   currentDate: Date;
   displayedColumns: string[] = ['id', 'time', 'invoices', 'organization', 'address', 'phone', 'recipientName', 'comment', 'vehicle', 'createrUser', 'actions'];
   dataSource = new MatTableDataSource<Delivery>([]);
@@ -25,7 +30,10 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   private subscription: Subscription;
 
-  constructor(private apiService: ApiService, private preloaderService: PreloaderService) {
+  constructor(
+    private apiService: ApiService,
+    private preloaderService: PreloaderService,
+    private router:Router) {
   }
 
   ngOnInit() {
@@ -40,6 +48,9 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    if (!this.additionalActions) {
+      this.additionalActions = [];
+    }
     this.currentDate = new Date(this.date);
     this.currentDate.setHours(this.currentDate.getHours(),0,0,0);
     this.apiService.getDeliveriesCount(this.currentDate, this.dayType).then((countObj) => {
@@ -92,6 +103,13 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
         this.initTable();
         this.change.emit();
       }).catch(this.errorHandler.bind(this));
+    return false;
+  }
+
+  rowClick(element: Delivery) {
+    if (this.editDisabled)
+      return false;
+    this.router.navigate([this.editRoute, element.id]);
     return false;
   }
 

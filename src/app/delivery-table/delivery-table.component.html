@@ -1,5 +1,5 @@
 <div class="table-container">
-  <button mat-raised-button color="accent" class="add-button"
+  <button *ngIf="!addDisabled" mat-raised-button color="accent" class="add-button"
           [routerLink]="[editRoute, 'add', currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), dayType]">
     Добавить доставку
   </button>
@@ -8,44 +8,44 @@
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef> ID.</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.id}} </td>
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.id}} </td>
     </ng-container>
 
     <ng-container matColumnDef="time">
       <th mat-header-cell *matHeaderCellDef> Время</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.time}} </td>
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.time}} </td>
     </ng-container>
 
     <ng-container matColumnDef="invoices">
       <th mat-header-cell *matHeaderCellDef> Счета</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]">
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)">
         <span *ngFor="let invoice of element.invoices"> {{invoice}} </span>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="organization">
       <th mat-header-cell *matHeaderCellDef> Организация</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.organization}} </td>
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.organization}} </td>
     </ng-container>
 
     <ng-container matColumnDef="address">
       <th mat-header-cell *matHeaderCellDef> Адрес</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{  element.address }} </td>
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{  element.address }} </td>
     </ng-container>
 
     <ng-container matColumnDef="phone">
       <th mat-header-cell *matHeaderCellDef> Телефон</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.phone}} </td>
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.phone}} </td>
     </ng-container>
 
     <ng-container matColumnDef="recipientName">
       <th mat-header-cell *matHeaderCellDef> Получатель</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.recipientName}} </td>
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.recipientName}} </td>
     </ng-container>
 
     <ng-container matColumnDef="comment">
       <th mat-header-cell *matHeaderCellDef> Комментарий</th>
-      <td mat-cell *matCellDef="let element" [routerLink]="[editRoute, element.id]"> {{element.comment}} </td>
+      <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.comment}} </td>
     </ng-container>
 
     <ng-container matColumnDef="vehicle">
@@ -64,18 +64,27 @@
     <ng-container matColumnDef="createrUser">
       <th mat-header-cell *matHeaderCellDef> Менеджер</th>
       <td mat-cell *matCellDef="let element"
-          [routerLink]="[editRoute, element.id]"> {{element.createrUser?.firstName}} {{element.createrUser?.lastName}} </td>
+          (click)="rowClick(element)"> {{element.createrUser?.firstName}} {{element.createrUser?.lastName}} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element" class="app-table-row-actions">
-        <input class="delivery-date-picker" matInput [matDatepicker]="picker" [min]="getStartDate()" placeholder="Choose a date"
-               (dateChange)="setDate(element,$event)">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker aria-label="Переместить" ></mat-datepicker>
-
-        <button mat-icon-button aria-hidden="false" aria-label="Удалить" (click)="remove(element.id)">
+        <span *ngFor="let action of additionalActions">
+          <button *ngIf="action.avaibleCallback(element)" mat-icon-button aria-hidden="false" aria-label=""
+                  (click)="action.callback(element.id)">
+            <mat-icon color="primary">{{action.icon}}</mat-icon>
+          </button>
+        </span>
+        <span *ngIf="!editDisabled">
+          <input class="delivery-date-picker" matInput [matDatepicker]="picker" [min]="getStartDate()"
+                 placeholder="Choose a date"
+                 (dateChange)="setDate(element,$event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker aria-label="Переместить"></mat-datepicker>
+        </span>
+        <button *ngIf="!editDisabled" mat-icon-button aria-hidden="false" aria-label="Удалить"
+                (click)="remove(element.id)">
           <mat-icon color="warn">delete</mat-icon>
         </button>
       </td>

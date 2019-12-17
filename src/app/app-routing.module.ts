@@ -11,10 +11,12 @@ import {DeliveryDayComponent} from "./delivery-day/delivery-day.component";
 import {DeliveryComponent} from "./delivery/delivery.component";
 import {AppComponent} from "./app.component";
 import {AuthGuard} from "./auth/auth.guard";
-import {LoginComponent} from "../login/login.component";
+import {LoginComponent} from "./login/login.component";
 import {VehicleResolverService} from "./vehicle/vehicle-resolver.service";
 import {UsersResolverService} from "./vehicle/users-resolver.service";
 import {DeliveryDayLogisticComponent} from "./delivery-day-logistic/delivery-day-logistic.component";
+import {DeliveryDayManagerComponent} from "./delivery-day-manager/delivery-day-manager.component";
+import {DeliveryDayDriverComponent} from "./delivery-day-driver/delivery-day-driver.component";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -40,7 +42,17 @@ const routes: Routes = [
           {
             path: 'delivery/day/:year/:month/:date',
             component: DeliveryDayLogisticComponent,
-            data: {roles: [1, 2, 3, 4], animation: 'list'}
+            data: {roles: [1, 2], animation: 'list'}
+          },
+          {
+            path: 'manager/delivery/day/:year/:month/:date',
+            component: DeliveryDayManagerComponent,
+            data: {roles: [3], animation: 'list'}
+          },
+          {
+            path: 'driver/delivery/day/:year/:month/:date',
+            component: DeliveryDayDriverComponent,
+            data: {roles: [4], animation: 'list'}
           },
           {
             path: 'delivery/month/:year/:month',
