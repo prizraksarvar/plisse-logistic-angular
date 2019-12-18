@@ -10,8 +10,8 @@ import {Credentials} from "./auth/auth.service";
   providedIn: 'root'
 })
 export class ApiService {
-  //API_URL = 'http://localhost:3000';
-  API_URL = 'https://plisse-logistic.sarvarcorp.ru';
+  //API_URL = 'http://localhost:3001/api';
+  API_URL = 'https://plisse-logistic.sarvarcorp.ru/api';
 
   constructor(private http: HttpClient) {
   }
@@ -24,7 +24,7 @@ export class ApiService {
 
   public getUserProfile(): Promise<User> {
     return this.http.get(
-      this.API_URL + '​/users/me', this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<User>;
+      this.API_URL + '/users/me', this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<User>;
   }
 
   public getUsersCount(): Promise<{ count: number }> {
