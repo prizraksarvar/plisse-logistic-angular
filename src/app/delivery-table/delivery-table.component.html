@@ -51,13 +51,15 @@
     <ng-container matColumnDef="vehicle">
       <th mat-header-cell *matHeaderCellDef> Машина</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-button
-                [matMenuTriggerFor]="menuVehicle"> {{element.vehicle ? element.vehicle.name : 'Выбрать' }} </button>
+        <span *ngIf="!editDisabled">
+          <button mat-button
+                  [matMenuTriggerFor]="menuVehicle"> {{element.vehicle ? element.vehicle.name : 'Выбрать' }} </button>
         <mat-menu #menuVehicle="matMenu">
           <button *ngFor="let v of vehicles" mat-menu-item (click)="setVehicle(element,v.id)">
             {{v.name}}
           </button>
         </mat-menu>
+        </span>
       </td>
     </ng-container>
 

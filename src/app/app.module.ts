@@ -12,14 +12,21 @@ import {
   MatButtonModule,
   MatBadgeModule,
   MatTooltipModule,
-  MatCardModule, MatCheckboxModule,
+  MatCardModule,
+  MatCheckboxModule,
   MatFormFieldModule,
   MatInputModule,
   MatListModule,
-  MatPaginatorModule, MatSelectModule,
+  MatPaginatorModule,
+  MatSelectModule,
   MatTableModule,
   MatIconModule,
-  MatToolbarModule, MatMenuModule, MatProgressSpinnerModule, MatDatepickerModule, MatNativeDateModule,
+  MatToolbarModule,
+  MatMenuModule,
+  MatProgressSpinnerModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatSnackBarModule,
 } from '@angular/material';
 import {ApiService} from './api.service';
 import {HttpClientModule} from '@angular/common/http';
@@ -96,6 +103,7 @@ import { DeliveryDayDriverComponent } from './delivery-day-driver/delivery-day-d
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule
     // LoginModule,
   ],
   providers: [

@@ -119,11 +119,11 @@ export class ApiService {
       + '&to=' + to.toISOString(), this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<DeliveryCountByDate[]>;
   }
 
-  public getDeliveries(offset: number, limit: number, date: Date, type: DeliveryType): Promise<Delivery[]> {
+  public getDeliveries(offset: number, limit: number, date: Date, type?: DeliveryType): Promise<Delivery[]> {
     return (this.http.get(
       this.API_URL + '/deliveries?filter[offset]=' + offset + '&filter[limit]=' + limit
       + '&filter[where][dateTime]=' + date.toISOString()
-      + '&filter[where][type]=' + type.toString(),
+      + (type ? '&filter[where][type]=' + type.toString() : ''),
       this.getOptions()).toPromise() as Promise<Delivery[]>).then((ds) => {
       ds.forEach(this.prepareDelivery);
       return ds;
