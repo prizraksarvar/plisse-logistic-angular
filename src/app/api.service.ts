@@ -24,7 +24,7 @@ export class ApiService {
 
   public getUserProfile(): Promise<User> {
     return this.http.get(
-      this.API_URL + '/users/me', this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<User>;
+      this.API_URL + '/users/me', this.getOptions()).toPromise() as Promise<User>;
   }
 
   public getUsersCount(): Promise<{ count: number }> {
@@ -153,7 +153,7 @@ export class ApiService {
   }
 
   private globalErrorCatcher(e) {
-    if (e.error.code == 401) {
+    if (e.error && e.error.error && e.error.error.statusCode == 401) {
       window.location.reload();
       return;
     } else {
