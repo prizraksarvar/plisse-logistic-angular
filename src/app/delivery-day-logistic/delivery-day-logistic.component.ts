@@ -33,12 +33,12 @@ export class DeliveryDayLogisticComponent implements OnInit, OnDestroy {
       this.currentDay = new Date(parseInt(year), parseInt(month), parseInt(date));
       this.initialized = true;
     });
-    this.checkerTimer = setInterval(this.checkUpdates.bind(this), 2000);
+    //this.checkerTimer = setInterval(this.checkUpdates.bind(this), 2000);
   }
 
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
-    clearInterval(this.checkerTimer);
+    //clearInterval(this.checkerTimer);
   }
 
   changed() {
@@ -70,6 +70,8 @@ export class DeliveryDayLogisticComponent implements OnInit, OnDestroy {
       }
 
       this.maxId = max;
+
+      return;
 
       this.snackBar.open("Добавлены новые доставки на сегодня", "Ок", {
         duration: 5000,

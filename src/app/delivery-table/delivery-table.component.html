@@ -79,16 +79,24 @@
           </button>
         </span>
         <span *ngIf="!editDisabled">
+          <button *ngIf="dayType==1" mat-icon-button aria-hidden="false" aria-label="На вторую половину дня"
+                  (click)="setType(element)">
+            <mat-icon color="primary">arrow_downward</mat-icon>
+          </button>
+          <button *ngIf="dayType==2" mat-icon-button aria-hidden="false" aria-label="На первую половину дня"
+                  (click)="setType(element)">
+            <mat-icon color="primary">arrow_upward</mat-icon>
+          </button>
           <input class="delivery-date-picker" matInput [matDatepicker]="picker" [min]="getStartDate()"
                  placeholder="Choose a date"
                  (dateChange)="setDate(element,$event)">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker aria-label="Переместить"></mat-datepicker>
+          <button *ngIf="!editDisabled" mat-icon-button aria-hidden="false" aria-label="Удалить"
+                  (click)="remove(element.id)">
+            <mat-icon color="warn">delete</mat-icon>
+          </button>
         </span>
-        <button *ngIf="!editDisabled" mat-icon-button aria-hidden="false" aria-label="Удалить"
-                (click)="remove(element.id)">
-          <mat-icon color="warn">delete</mat-icon>
-        </button>
       </td>
     </ng-container>
 

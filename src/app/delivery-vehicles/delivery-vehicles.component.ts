@@ -33,14 +33,17 @@ export class DeliveryVehiclesComponent implements OnInit, OnChanges {
       .wrapPreloader(Promise.all([this.apiService.getDeliveries(0, 100, date, DeliveryType.firstDayPart)
         .then((deliveries) => {
           this.deliveriesFirstPart = deliveries;
+          console.log(deliveries);
         }),
         this.apiService.getDeliveries(0, 100, date, DeliveryType.secondDayPart)
           .then((deliveries) => {
             this.deliveriesSecondPart = deliveries;
+            console.log(deliveries);
           }),
         this.apiService.getDeliveries(0, 100, date, DeliveryType.internalDelivery)
           .then((deliveries) => {
             this.deliveriesInternalPart = deliveries;
+            console.log(deliveries);
           })])).then(() => {
       this.initialized = true;
     });

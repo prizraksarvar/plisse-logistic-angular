@@ -3,9 +3,16 @@
     <mat-icon>menu</mat-icon>
   </button>
   <h1 class="example-app-name">Plisse Logistic</h1>
+  <span *ngIf="authService.isLoggedIn" class="app-header__right">
+    <span>{{user?.firstName}} {{user?.lastName}}</span>
+    <button mat-icon-button (click)="authService.logout()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </span>
 </mat-toolbar>
 <mat-sidenav-container class="main-container">
-  <mat-sidenav #snav [mode]="isMobile ? 'push' : 'side'" [opened]="authService.isLoggedIn && menuOpen" fixedInViewport fixedTopGap="59"
+  <mat-sidenav #snav [mode]="isMobile ? 'push' : 'side'" [opened]="authService.isLoggedIn && menuOpen"
+               fixedInViewport fixedTopGap="59"
                fixedBottomGap="0" class="app-sidebar mat-elevation-z8">
     <app-drawer></app-drawer>
   </mat-sidenav>

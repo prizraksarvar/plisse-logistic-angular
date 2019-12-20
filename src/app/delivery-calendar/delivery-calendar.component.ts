@@ -23,9 +23,9 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
   public years: Date[];
   public countsByDate: {
     [index:string]:{
-      0:number,
       1:number,
       2:number,
+      3:number,
     }
   } = {};
 
@@ -123,9 +123,9 @@ export class DeliveryCalendarComponent implements OnInit, OnDestroy {
         let d = this.countsByDate[date];
         if (!d) {
           d = {
-            0:0,
             1:0,
             2:0,
+            3:0,
           };
         }
         d[type] = i.count;

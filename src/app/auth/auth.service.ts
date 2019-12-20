@@ -4,6 +4,7 @@ import {delay, mergeMap, take, tap} from "rxjs/operators";
 import {ApiService} from "../api.service";
 import {User} from "../entities/user";
 import {fromPromise} from "rxjs/internal-compatibility";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
   user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
   redirectUrl: string;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   async login(data: Credentials): Promise<boolean> {
     let r = await this.apiService.login(data);
@@ -39,8 +40,11 @@ export class AuthService {
   }
 
   logout(): void {
+    window.localStorage.setItem("auth_token", null);
     this.isLoggedIn = false;
     this.user.next(null);
+    this.redirectUrl = '/';
+    this.router.navigate(['/login']);
   }
 }
 

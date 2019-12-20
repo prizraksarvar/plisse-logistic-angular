@@ -138,8 +138,8 @@ export class ApiService {
     return this.http.post(this.API_URL + '/deliveries', delivery, this.getOptions()).toPromise().then(this.prepareDelivery).catch(this.globalErrorCatcher) as Promise<Delivery>;
   }
 
-  public updateDelivery(delivery: Delivery): Promise<Delivery> {
-    return this.http.patch(this.API_URL + '/deliveries/' + delivery.id, delivery, this.getOptions()).toPromise().then(this.prepareDelivery).catch(this.globalErrorCatcher) as Promise<Delivery>;
+  public updateDelivery(delivery: Delivery): Promise<void> {
+    return this.http.patch(this.API_URL + '/deliveries/' + delivery.id, delivery, this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<void>;
   }
 
   public deleteDelivery(id: number): Promise<{ description?: string, error?: {} }> {

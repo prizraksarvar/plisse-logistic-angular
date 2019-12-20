@@ -1,9 +1,10 @@
-import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {Component, ChangeDetectorRef, OnDestroy, OnInit} from '@angular/core';
 import {BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
 import {RouterOutlet} from "@angular/router";
 import {fadeAnimation} from "./animations";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {AuthService} from "./auth/auth.service";
+import {User} from "./entities/user";
 
 @Component({
   selector: 'app-root',
@@ -15,11 +16,12 @@ import {AuthService} from "./auth/auth.service";
     ]),
   ]
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'plisse-logistic';
   mobileQuery: MediaQueryList;
   menuOpen = true;
   isMobile = false;
+  user: User = null;
 
   private _mobileQueryListener: () => void;
 
@@ -51,6 +53,12 @@ export class AppComponent implements OnDestroy {
           this.isMobile = false;
         }
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.authService.user.subscribe(value => {
+      this.user = value;
     });
   }
 

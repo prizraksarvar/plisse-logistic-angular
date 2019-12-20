@@ -23,9 +23,9 @@ export class Delivery {
 }
 
 export enum DeliveryType {
-  firstDayPart=0,
-  secondDayPart=1,
-  internalDelivery=2
+  firstDayPart=1,
+  secondDayPart=2,
+  internalDelivery=3
 }
 
 export class DeliveryCountByDate {

@@ -17,8 +17,8 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() dayType: DeliveryType;
   @Input() date: Date;
   @Output() change: EventEmitter<void> = new EventEmitter<void>();
-  @Input() editDisabled:boolean;
-  @Input() addDisabled:boolean;
+  @Input() editDisabled: boolean;
+  @Input() addDisabled: boolean;
   @Input() additionalActions: TableAction[];
   currentDate: Date;
   displayedColumns: string[] = ['id', 'time', 'invoices', 'organization', 'address', 'phone', 'recipientName', 'comment', 'vehicle', 'createrUser', 'actions'];
@@ -33,7 +33,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   constructor(
     private apiService: ApiService,
     private preloaderService: PreloaderService,
-    private router:Router) {
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -52,7 +52,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
       this.additionalActions = [];
     }
     this.currentDate = new Date(this.date);
-    this.currentDate.setHours(this.currentDate.getHours(),0,0,0);
+    this.currentDate.setHours(this.currentDate.getHours(), 0, 0, 0);
     this.apiService.getDeliveriesCount(this.currentDate, this.dayType).then((countObj) => {
       this.count = countObj.count;
       this.initTable();
@@ -67,7 +67,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
 
   initTable() {
     this.preloaderService
-      .wrapPreloader(this.apiService.getDeliveries(0,100, this.currentDate, this.dayType)) //this.paginator.pageIndex * this.paginator.pageSize, this.paginator.pageSize,
+      .wrapPreloader(this.apiService.getDeliveries(0, 100, this.currentDate, this.dayType)) //this.paginator.pageIndex * this.paginator.pageSize, this.paginator.pageSize,
       .then((deliveries) => {
         this.dataSource.data = deliveries;
       });
@@ -97,12 +97,15 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
       return true;
     let date = new Date(event.value);
     date.setHours(this.currentDate.getHours(), 0, 0, 0);
-    this.preloaderService
-      .wrapPreloader(this.apiService.updateDelivery({id: element.id, dateTime: date} as Delivery))
-      .then(() => {
-        this.initTable();
-        this.change.emit();
-      }).catch(this.errorHandler.bind(this));
+    this.setDateType(element.id, date, element.type);
+    return false;
+  }
+
+  setType(element: Delivery) {
+    let type = this.dayType == DeliveryType.internalDelivery
+      ? DeliveryType.internalDelivery
+      : (this.dayType == DeliveryType.firstDayPart ? DeliveryType.secondDayPart : DeliveryType.firstDayPart);
+    this.setDateType(element.id, element.dateTime, type);
     return false;
   }
 
@@ -120,5 +123,14 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
 
   getStartDate() {
     return new Date();
+  }
+
+  private setDateType(id:number, dateTime: Date, type: DeliveryType) {
+    this.preloaderService
+      .wrapPreloader(this.apiService.updateDelivery({id: id, dateTime: dateTime, type: type} as Delivery))
+      .then(() => {
+        this.initTable();
+        this.change.emit();
+      }).catch(this.errorHandler.bind(this));
   }
 }
