@@ -15,7 +15,7 @@ export class DeliveryDayDriverComponent implements OnInit, OnDestroy {
   public initialized = false;
   public currentDay: Date;
   public additionalActions: TableAction[] = [
-    new TableAction("home", this.complete.bind(this), this.completeAvaible.bind(this))
+    new TableAction("done", this.complete.bind(this), this.completeAvaible.bind(this))
   ];
 
   private routeSubscription: Subscription;
