@@ -66,6 +66,10 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       if (id !== 'add') {
         this.apiService.getDelivery(id).then((delivery) => {
           this.delivery = delivery;
+          if (typeof delivery.invoices == "object" && delivery.invoices.length> 0) {
+            // @ts-ignore
+            delivery.invoices = delivery.invoices[0];
+          }
           console.log();
           this.currentDay = delivery.dateTime;
           this.initialized = true;
@@ -84,6 +88,9 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   async save(delivery: Delivery) {
     delivery.dateTime = this.currentDay;
     delivery.type = this.dayType;
+    if (typeof delivery.invoices == "string") {
+      delivery.invoices= [delivery.invoices];
+    }
     if (delivery.id > 0) {
       await this.apiService.updateDelivery(delivery).catch(this.errorHandler.bind(this));
     } else {
@@ -110,6 +117,11 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       type: 'text',
       label: 'ИД',
       disabled: true,
+    }));
+    this.controls.push(new TextboxControl({
+      key: 'invoices',
+      type: 'text',
+      label: 'Номер накладной счета',
     }));
     this.controls.push(new TextboxControl({
       key: 'organization',

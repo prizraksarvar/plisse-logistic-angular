@@ -3,7 +3,7 @@ import {Vehicle} from "./vehicle";
 
 export class Delivery {
   id:number;
-  invoices:string[] = ["Тест счет"];
+  invoices:string[] = [""];
   organization = '';
   address = '';
   phone = '';
