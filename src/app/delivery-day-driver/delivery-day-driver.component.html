@@ -1,5 +1,5 @@
 <div *ngIf="initialized" class="delivery-day-logistic">
   <app-delivery-day (change)="changed()" routeLink="/driver/delivery/day"
                     [editDisabled]="true" [addDisabled]="true"
-                    [additionalActions]="additionalActions"></app-delivery-day>
+                    [additionalActions]="additionalActions" [rowDisable]="rowDisable"></app-delivery-day>
 </div>

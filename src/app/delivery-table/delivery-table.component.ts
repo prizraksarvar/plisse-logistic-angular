@@ -20,6 +20,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
   @Input() editDisabled: boolean;
   @Input() addDisabled: boolean;
   @Input() additionalActions: TableAction[];
+  @Input() rowDisable: (row: Delivery)=>boolean = (r)=>false;
   currentDate: Date;
   displayedColumns: string[] = ['id', 'time', 'invoices', 'organization', 'address', 'phone', 'recipientName', 'comment', 'vehicle', 'createrUser', 'actions'];
   dataSource = new MatTableDataSource<Delivery>([]);

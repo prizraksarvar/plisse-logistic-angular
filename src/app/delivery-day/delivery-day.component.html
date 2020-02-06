@@ -16,18 +16,18 @@
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Первая половина дня</div>
     <app-delivery-table dayType="1" [date]="currentDay" (change)="change.emit()" [addDisabled]="addDisabled"
-                        [editDisabled]="editDisabled" [additionalActions]="additionalActions"></app-delivery-table>
+                        [editDisabled]="editDisabled" [additionalActions]="additionalActions" [rowDisable]="rowDisable"></app-delivery-table>
   </div>
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Вторая половина дня</div>
     <app-delivery-table dayType="2" [date]="currentDay" (change)="change.emit()" [addDisabled]="addDisabled"
-                        [editDisabled]="editDisabled" [additionalActions]="additionalActions"></app-delivery-table>
+                        [editDisabled]="editDisabled" [additionalActions]="additionalActions" [rowDisable]="rowDisable"></app-delivery-table>
   </div>
   <mat-divider></mat-divider>
   <div class="delivery-day__table">
     <div class="delivery-day__table-header">Внутренние доставки</div>
     <app-delivery-table dayType="3" [date]="currentDay" (change)="change.emit()" [addDisabled]="addDisabled"
-                        [editDisabled]="editDisabled" [additionalActions]="additionalActions"></app-delivery-table>
+                        [editDisabled]="editDisabled" [additionalActions]="additionalActions" [rowDisable]="rowDisable"></app-delivery-table>
   </div>
 </mat-card>

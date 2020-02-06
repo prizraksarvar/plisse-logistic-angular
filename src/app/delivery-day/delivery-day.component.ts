@@ -16,6 +16,7 @@ export class DeliveryDayComponent implements OnInit, OnDestroy {
   @Input() editDisabled:boolean;
   @Input() addDisabled:boolean;
   @Input() additionalActions: TableAction[];
+  @Input() rowDisable: (row: Delivery)=>boolean;
   @Output() change: EventEmitter<void> = new EventEmitter<void>();
   public initialized = false;
   public currentDay: Date;

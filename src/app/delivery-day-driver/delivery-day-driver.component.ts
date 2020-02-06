@@ -21,6 +21,7 @@ export class DeliveryDayDriverComponent implements OnInit, OnDestroy {
   private routeSubscription: Subscription;
 
   constructor(private route: ActivatedRoute, private apiService: ApiService, private preloaderService: PreloaderService) {
+    this.rowDisable = this.rowDisable.bind(this);
   }
 
   ngOnInit() {
@@ -62,6 +63,9 @@ export class DeliveryDayDriverComponent implements OnInit, OnDestroy {
 
   completeAvaible(element: Delivery) {
     return !element.completed;
+  }
 
+  rowDisable(row: Delivery) {
+    return row.completed;
   }
 }
