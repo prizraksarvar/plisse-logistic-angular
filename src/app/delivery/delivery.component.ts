@@ -10,6 +10,7 @@ import {combineLatest, Observable, Subscription, zip} from "rxjs";
 import {AuthService} from "../auth/auth.service";
 import {FixedDelivery} from "../entities/fixed-delivery";
 import {DropdownControl} from "../editor-form/dropdown-control";
+import {RequiredValidator} from "@angular/forms";
 
 @Component({
   selector: 'app-delivery',
@@ -24,6 +25,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
   public currentDay: Date;
   public dayType: DeliveryType = 0;
   public fixedDeliveries: FixedDelivery[] = [];
+  public fixedDeliveryRequired = false;
 
   private routeLink = "";
   private routeSubscription: Subscription;
@@ -125,8 +127,9 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private initFixedDeliveries(fixedDeliveries:FixedDelivery[]) {
+  private initFixedDeliveries(fixedDeliveries: FixedDelivery[]) {
     this.fixedDeliveries = [];
+    this.fixedDeliveryRequired = true;
     fixedDeliveries.forEach((d) => {
       if (d.type != this.dayType
         || (!(d.d1 && this.currentDay.getDay() == 1
@@ -136,8 +139,13 @@ export class DeliveryComponent implements OnInit, OnDestroy {
           || d.d5 && this.currentDay.getDay() == 5
           || d.d6 && this.currentDay.getDay() == 6
           || d.d7 && this.currentDay.getDay() == 0))) return;
+
       this.fixedDeliveries.push(d);
     });
+    if (this.fixedDeliveries.length == 0) {
+      this.fixedDeliveryRequired = false;
+      this.fixedDeliveries = fixedDeliveries;
+    }
   }
 
   private initControls() {
@@ -158,10 +166,13 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       type: 'text',
       label: 'Организация',
     }));
-    const options = [{
-      key: 0,
-      value: 'Не выбрано',
-    }];
+    const options = [];
+    if (!this.fixedDeliveryRequired) {
+      options.push({
+        key: 0,
+        value: 'Не выбрано',
+      });
+    }
     this.fixedDeliveries.forEach((item) => {
       options.push({
         key: item.id,
@@ -172,6 +183,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       key: 'fixedDeliveryId',
       label: 'Направление',
       options,
+      required: this.fixedDeliveryRequired,
+      validators: []
     }));
     this.controls.push(new TextboxControl({
       key: 'address',

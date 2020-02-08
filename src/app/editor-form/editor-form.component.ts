@@ -50,6 +50,9 @@ export class EditorFormComponent implements OnInit {
   }
 
   save() {
+    if (!this.form.valid) {
+      return false;
+    }
     this.controls.forEach((control) => {
       if (control.disabled) {
         return;

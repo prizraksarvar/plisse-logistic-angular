@@ -5,6 +5,9 @@
         <mat-form-field *ngSwitchCase="'textbox'" class="example-full-width">
           <input matInput [placeholder]="control.label" [type]="control.type"
                  [id]="control.key" [formControlName]="control.key" [appControlMask]="control.mask">
+          <mat-error *ngIf="form.controls[control.key].hasError('required')">
+            Поле {{control.label}} <strong>обязательное</strong>
+          </mat-error>
         </mat-form-field>
         <mat-form-field *ngSwitchCase="'dropdown'" class="example-full-width">
           <mat-label>{{control.label}}</mat-label>
@@ -13,6 +16,9 @@
               {{option.value}}
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="form.controls[control.key].hasError('required')">
+            Поле {{control.label}} <strong>обязательное</strong>
+          </mat-error>
         </mat-form-field>
         <mat-checkbox *ngSwitchCase="'checkbox'" [id]="control.key"
                       [formControlName]="control.key">
