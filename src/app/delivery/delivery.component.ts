@@ -6,8 +6,10 @@ import {BaseControl} from '../editor-form/base-control';
 import {TextboxControl} from '../editor-form/textbox-control';
 import {CheckboxControl} from '../editor-form/checkbox-control';
 import {PhoneControlMask} from '../editor-form/masks/phone-control-mask';
-import {Subscription} from "rxjs";
+import {combineLatest, Observable, Subscription, zip} from "rxjs";
 import {AuthService} from "../auth/auth.service";
+import {FixedDelivery} from "../entities/fixed-delivery";
+import {DropdownControl} from "../editor-form/dropdown-control";
 
 @Component({
   selector: 'app-delivery',
@@ -20,7 +22,8 @@ export class DeliveryComponent implements OnInit, OnDestroy {
 
   public controls: BaseControl<any>[] = [];
   public currentDay: Date;
-  public dayType:DeliveryType = 0;
+  public dayType: DeliveryType = 0;
+  public fixedDeliveries: FixedDelivery[] = [];
 
   private routeLink = "";
   private routeSubscription: Subscription;
@@ -38,15 +41,23 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     this.userSubscription = this.authService.user.subscribe((user) => {
       if (!user) {
         this.routeLink = "";
-      } else if (user.roleId==1 || user.roleId==2) {
+      } else if (user.roleId == 1 || user.roleId == 2) {
         this.routeLink = "/delivery/day";
-      } else if (user.roleId==3) {
+      } else if (user.roleId == 3) {
         this.routeLink = "/manager/delivery/day";
-      } else if (user.roleId==4) {
+      } else if (user.roleId == 4) {
         this.routeLink = "/driver/delivery/day";
       }
     });
-    this.routeSubscription = this.route.paramMap.subscribe((params: ParamMap) => {
+
+    this.routeSubscription = zip(
+      this.route.data,
+      this.route.paramMap
+    ).subscribe((ds: any) => {
+      let data: { fixedDeliveries: FixedDelivery[] } = ds[0];
+      let params: ParamMap = ds[1];
+      console.log(data);
+      let fixedDeliveries = data.fixedDeliveries ? data.fixedDeliveries : [];
       this.delivery = new Delivery();
       const id = params.get('id');
       let year = params.get('year');
@@ -56,25 +67,29 @@ export class DeliveryComponent implements OnInit, OnDestroy {
         this.currentDay = new Date(parseInt(year), parseInt(month), parseInt(date));
       } else {
         this.currentDay = new Date();
-        this.currentDay.setHours(0,0,0,0);
+        this.currentDay.setHours(0, 0, 0, 0);
       }
       const dayPart = params.get('dayPart');
-      this.initControls();
       if (dayPart) {
         this.dayType = parseInt(dayPart);
       }
       if (id !== 'add') {
         this.apiService.getDelivery(id).then((delivery) => {
           this.delivery = delivery;
-          if (typeof delivery.invoices == "object" && delivery.invoices.length> 0) {
+          if (typeof delivery.invoices == "object" && delivery.invoices.length > 0) {
             // @ts-ignore
             delivery.invoices = delivery.invoices[0];
           }
           console.log();
           this.currentDay = delivery.dateTime;
+          this.dayType = delivery.type;
+          this.initFixedDeliveries(fixedDeliveries);
+          this.initControls();
           this.initialized = true;
         });
       } else {
+        this.initFixedDeliveries(fixedDeliveries);
+        this.initControls();
         this.initialized = true;
       }
     });
@@ -89,7 +104,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     delivery.dateTime = this.currentDay;
     delivery.type = this.dayType;
     if (typeof delivery.invoices == "string") {
-      delivery.invoices= [delivery.invoices];
+      delivery.invoices = [delivery.invoices];
     }
     if (delivery.id > 0) {
       await this.apiService.updateDelivery(delivery).catch(this.errorHandler.bind(this));
@@ -110,6 +125,21 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  private initFixedDeliveries(fixedDeliveries:FixedDelivery[]) {
+    this.fixedDeliveries = [];
+    fixedDeliveries.forEach((d) => {
+      if (d.type != this.dayType
+        || (!(d.d1 && this.currentDay.getDay() == 1
+          || d.d2 && this.currentDay.getDay() == 2
+          || d.d3 && this.currentDay.getDay() == 3
+          || d.d4 && this.currentDay.getDay() == 4
+          || d.d5 && this.currentDay.getDay() == 5
+          || d.d6 && this.currentDay.getDay() == 6
+          || d.d7 && this.currentDay.getDay() == 0))) return;
+      this.fixedDeliveries.push(d);
+    });
+  }
+
   private initControls() {
     this.controls = [];
     this.controls.push(new TextboxControl({
@@ -127,6 +157,21 @@ export class DeliveryComponent implements OnInit, OnDestroy {
       key: 'organization',
       type: 'text',
       label: 'Организация',
+    }));
+    const options = [{
+      key: 0,
+      value: 'Не выбрано',
+    }];
+    this.fixedDeliveries.forEach((item) => {
+      options.push({
+        key: item.id,
+        value: item.name,
+      });
+    });
+    this.controls.push(new DropdownControl({
+      key: 'fixedDeliveryId',
+      label: 'Направление',
+      options,
     }));
     this.controls.push(new TextboxControl({
       key: 'address',

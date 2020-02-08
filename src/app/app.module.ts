@@ -53,6 +53,8 @@ import {PreloaderComponent} from "./preloader/preloader.component";
 import {PreloaderService} from "./preloader/preloader.service";
 import { DeliveryDayManagerComponent } from './delivery-day-manager/delivery-day-manager.component';
 import { DeliveryDayDriverComponent } from './delivery-day-driver/delivery-day-driver.component';
+import { FixedDeliveryComponent } from './fixed-delivery/fixed-delivery.component';
+import { FixedDeliveriesComponent } from './fixed-deliveries/fixed-deliveries.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { DeliveryDayDriverComponent } from './delivery-day-driver/delivery-day-d
     PreloaderComponent,
     DeliveryDayManagerComponent,
     DeliveryDayDriverComponent,
+    FixedDeliveryComponent,
+    FixedDeliveriesComponent,
   ],
   imports: [
     BrowserModule,

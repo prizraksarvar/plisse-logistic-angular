@@ -48,6 +48,21 @@
       <td mat-cell *matCellDef="let element" (click)="rowClick(element)"> {{element.comment}} </td>
     </ng-container>
 
+    <ng-container matColumnDef="fixedDeliveries">
+      <th mat-header-cell *matHeaderCellDef> Направление</th>
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="!editDisabled">
+          <button mat-button
+                  [matMenuTriggerFor]="menuFixedDelivery"> {{getFixedDelivery(element).id>0 ? getFixedDelivery(element).name : 'Выбрать' }} </button>
+        <mat-menu #menuFixedDelivery="matMenu">
+          <button *ngFor="let v of getFixedDeliveries()" mat-menu-item (click)="setFixedDelivery(element,v.id)">
+            {{v.name}}
+          </button>
+        </mat-menu>
+        </span>
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="vehicle">
       <th mat-header-cell *matHeaderCellDef> Машина</th>
       <td mat-cell *matCellDef="let element">

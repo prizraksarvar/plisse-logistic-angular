@@ -17,6 +17,9 @@ import {UsersResolverService} from "./vehicle/users-resolver.service";
 import {DeliveryDayLogisticComponent} from "./delivery-day-logistic/delivery-day-logistic.component";
 import {DeliveryDayManagerComponent} from "./delivery-day-manager/delivery-day-manager.component";
 import {DeliveryDayDriverComponent} from "./delivery-day-driver/delivery-day-driver.component";
+import {FixedDeliveryComponent} from "./fixed-delivery/fixed-delivery.component";
+import {FixedDeliveriesComponent} from "./fixed-deliveries/fixed-deliveries.component";
+import {FixedDeliveriesResolverService} from "./delivery/fixed-deliveries-resolver.service";
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -39,6 +42,8 @@ const routes: Routes = [
             }
           },
           {path: 'vehicles', component: VehiclesComponent, data: {roles: [1, 2], animation: 'list'}},
+          {path: 'fixed-deliveries/:id', component: FixedDeliveryComponent, data: {roles: [1, 2], animation: 'detail'}},
+          {path: 'fixed-deliveries', component: FixedDeliveriesComponent, data: {roles: [1, 2], animation: 'list'}},
           {
             path: 'delivery/day/:year/:month/:date',
             component: DeliveryDayLogisticComponent,
@@ -63,9 +68,18 @@ const routes: Routes = [
           {
             path: 'delivery/:id/:year/:month/:date/:dayPart',
             component: DeliveryComponent,
-            data: {roles: [1, 2, 3, 4], animation: 'detail'}
+            data: {roles: [1, 2, 3, 4], animation: 'detail'}, resolve: {
+              fixedDeliveries: FixedDeliveriesResolverService,
+            }
           },
-          {path: 'delivery/:id', component: DeliveryComponent, data: {roles: [1, 2, 3, 4], animation: 'detail'}},
+          {
+            path: 'delivery/:id',
+            component: DeliveryComponent,
+            data: {roles: [1, 2, 3, 4], animation: 'detail'},
+            resolve: {
+              fixedDeliveries: FixedDeliveriesResolverService,
+            }
+          },
           {path: '', component: DeliveryMonthComponent, data: {roles: [1, 2, 3, 4], animation: 'list'}},
         ],
       }

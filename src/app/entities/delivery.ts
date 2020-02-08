@@ -20,6 +20,7 @@ export class Delivery {
   vehicle: Vehicle;
   createrUserId:number;
   createrUser: User;
+  fixedDeliveryId:number;
 }
 
 export enum DeliveryType {
@@ -27,6 +28,11 @@ export enum DeliveryType {
   secondDayPart=2,
   internalDelivery=3
 }
+export let DeliveryTypeNames = {
+  1:"Первая половина",
+  2:"Вторая половина",
+  3:"Внутренние доставки"
+};
 
 export class DeliveryCountByDate {
   count?: number;

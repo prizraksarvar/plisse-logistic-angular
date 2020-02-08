@@ -7,7 +7,7 @@
                  [id]="control.key" [formControlName]="control.key" [appControlMask]="control.mask">
         </mat-form-field>
         <mat-form-field *ngSwitchCase="'dropdown'" class="example-full-width">
-          <mat-label>Роль</mat-label>
+          <mat-label>{{control.label}}</mat-label>
           <mat-select [id]="control.key" [formControlName]="control.key">
             <mat-option *ngFor="let option of control.options" [value]="option.key">
               {{option.value}}

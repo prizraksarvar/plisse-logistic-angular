@@ -12,6 +12,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
     {name: 'Пользователи', link: '/users', roles: [1]},
     {name: 'Роли', link: '/roles', roles: [1]},
     {name: 'Доставки', link: '/delivery/month', roles: [1,2,3,4]},
+    {name: 'Направления', link: '/fixed-deliveries', roles: [1,2]},
     {name: 'Машины', link: '/vehicles', roles: [1,2]},
     {name: 'Отчеты', link: '/delivery/add', roles: [1,2]},
   ];

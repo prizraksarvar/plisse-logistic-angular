@@ -5,6 +5,7 @@ import {Role} from './entities/role';
 import {Vehicle} from "./entities/vehicle";
 import {Delivery, DeliveryCountByDate, DeliveryType} from "./entities/delivery"
 import {Credentials} from "./auth/auth.service";
+import {FixedDelivery} from "./entities/fixed-delivery";
 
 @Injectable({
   providedIn: 'root'
@@ -144,6 +145,33 @@ export class ApiService {
 
   public deleteDelivery(id: number): Promise<{ description?: string, error?: {} }> {
     return this.http.delete(this.API_URL + '/deliveries/' + id, this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<{ description?: string, error?: {} }>;
+  }
+
+
+  public getFixedDeliveryCount(): Promise<{ count: number }> {
+    return this.http.get(
+      this.API_URL + '/fixed-deliveries/count', this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<{ count: number }>;
+  }
+
+  public getFixedDeliveries(offset: number, limit: number): Promise<FixedDelivery[]> {
+    return this.http.get(
+      this.API_URL + '/fixed-deliveries?filter[offset]=' + offset + '&filter[limit]=' + limit, this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<FixedDelivery[]>;
+  }
+
+  public getFixedDelivery(id: string): Promise<FixedDelivery> {
+    return this.http.get(this.API_URL + '/fixed-deliveries/' + id, this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<FixedDelivery>;
+  }
+
+  public createFixedDelivery(fixedDelivery: FixedDelivery): Promise<FixedDelivery> {
+    return this.http.post(this.API_URL + '/fixed-deliveries', fixedDelivery, this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<FixedDelivery>;
+  }
+
+  public updateFixedDelivery(fixedDelivery: FixedDelivery): Promise<FixedDelivery> {
+    return this.http.patch(this.API_URL + '/fixed-deliveries/' + fixedDelivery.id, fixedDelivery, this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<FixedDelivery>;
+  }
+
+  public deleteFixedDelivery(id: number): Promise<{ description?: string, error?: {} }> {
+    return this.http.delete(this.API_URL + '/fixed-deliveries/' + id, this.getOptions()).toPromise().catch(this.globalErrorCatcher) as Promise<{ description?: string, error?: {} }>;
   }
 
   private prepareDelivery(d:Delivery):Delivery {
