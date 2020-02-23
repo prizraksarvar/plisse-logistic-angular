@@ -95,12 +95,16 @@
         </span>
         <span *ngIf="!editDisabled">
           <button *ngIf="dayType==1" mat-icon-button aria-hidden="false" aria-label="На вторую половину дня"
-                  (click)="setType(element)">
+                  (click)="setType(element,2)">
             <mat-icon color="primary">arrow_downward</mat-icon>
           </button>
-          <button *ngIf="dayType==2" mat-icon-button aria-hidden="false" aria-label="На первую половину дня"
-                  (click)="setType(element)">
+          <button *ngIf="dayType==2 || dayType==3" mat-icon-button aria-hidden="false" aria-label="На первую половину дня"
+                  (click)="setType(element, dayType==2 ? 1 : 2)">
             <mat-icon color="primary">arrow_upward</mat-icon>
+          </button>
+          <button *ngIf="dayType==2" mat-icon-button aria-hidden="false" aria-label="На внутреннюю доставку"
+                  (click)="setType(element, 3)">
+            <mat-icon color="primary">arrow_downward</mat-icon>
           </button>
           <input class="delivery-date-picker" matInput [matDatepicker]="picker" [min]="getStartDate()"
                  placeholder="Choose a date"
@@ -116,7 +120,7 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.disabled-row]="rowDisable && rowDisable(row)"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.disabled-row]="isRowDisabled(row)"></tr>
   </table>
 
   <!--mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100, 200]" pageSize="20" showFirstLastButtons

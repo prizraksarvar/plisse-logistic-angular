@@ -8,6 +8,7 @@ import {PreloaderService} from "../preloader/preloader.service";
 import {TableAction} from "../entities/table-action";
 import {Router} from "@angular/router";
 import {FixedDelivery} from "../entities/fixed-delivery";
+import {element} from "protractor";
 
 @Component({
   selector: 'app-delivery-table',
@@ -145,10 +146,7 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
     return false;
   }
 
-  setType(element: Delivery) {
-    let type = this.dayType == DeliveryType.internalDelivery
-      ? DeliveryType.internalDelivery
-      : (this.dayType == DeliveryType.firstDayPart ? DeliveryType.secondDayPart : DeliveryType.firstDayPart);
+  setType(element: Delivery, type: DeliveryType) {
     this.setDateType(element.id, element.dateTime, type);
     return false;
   }
@@ -167,6 +165,10 @@ export class DeliveryTableComponent implements OnInit, OnDestroy, OnChanges {
 
   getStartDate() {
     return new Date();
+  }
+
+  isRowDisabled(element:Delivery) {
+    return element.completed;
   }
 
   private setDateType(id: number, dateTime: Date, type: DeliveryType) {

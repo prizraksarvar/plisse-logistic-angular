@@ -144,7 +144,7 @@ export class DeliveryComponent implements OnInit, OnDestroy {
     });
     if (this.fixedDeliveries.length == 0) {
       this.fixedDeliveryRequired = false;
-      this.fixedDeliveries = fixedDeliveries;
+      //this.fixedDeliveries = fixedDeliveries;
     }
   }
 
